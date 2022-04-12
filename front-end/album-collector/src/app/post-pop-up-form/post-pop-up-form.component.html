@@ -1,0 +1,80 @@
+<div class="overlay" (click)="cancel()"></div>
+<div class="popup">
+  <div
+    class="d-flex flex-row justify-content-between align-items-center p-2 border-bottom"
+  >
+    <div class="d-flex flex-row align-items-center feed-text px-2">
+      <img
+        class="rounded-circle"
+        src="https://i.imgur.com/aoKusnD.jpg"
+        width="45"
+      />
+      <div class="d-flex flex-column flex-wrap ml-2">
+        <span class="font-weight-bold">Dimitar</span
+        ><span class="text-black-50 time">40 minutes ago</span>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="feed-icon px-2">
+    <i class="fa fa-ellipsis-v text-black-50"></i>
+  </div> -->
+  <form class="pt-3">
+    <div class="form-group">
+      <label for="exampleFormControlTextarea1">Description</label>
+      <textarea
+        class="form-control"
+        id="exampleFormControlTextarea1"
+        rows="3"
+      ></textarea>
+    </div>
+    <div class="form-group pt-3">
+      <label for="exampleFormControlInput1">Phone</label>
+      <input
+        type="text"
+        class="form-control"
+        id="exampleFormControlInput1"
+        placeholder="+3897#######"
+      />
+    </div>
+    <div class="form-group pt-3">
+      <label for="exampleFormControlInput1">Place</label>
+      <input
+        type="text"
+        class="form-control"
+        id="ul. Example br. X"
+        placeholder="+3897#######"
+      />
+    </div>
+    <!-- <div class="form-group">
+      <label for="exampleFormControlSelect1">Missing</label>
+      <select class="form-control" id="exampleFormControlSelect1">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+      </select>
+    </div> -->
+    <!-- <div class="form-group">
+      <label for="exampleFormControlSelect2">Missing</label>
+      <select multiple class="form-control" id="exampleFormControlSelect2">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+      </select>
+    </div> -->
+    <div class="form-group">
+      <label for="exampleFormControlTextarea1">Missing/Duplicates</label>
+      <textarea
+        class="form-control"
+        id="exampleFormControlTextarea1"
+        rows="3"
+      ></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-default">Submit</button>
+    <button (click)="cancel()" class="btn btn-default">Cancel</button>
+  </form>
+</div>

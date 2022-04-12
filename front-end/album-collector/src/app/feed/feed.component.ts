@@ -8,9 +8,16 @@ import { FeedService } from '../feed.service';
 })
 export class FeedComponent implements OnInit {
   constructor(private feedService: FeedService) {}
-
+  popup = false;
   ngOnInit(): void {
-    this.feedService.getPosts().subscribe((data) => console.log(data));
-    this.feedService.addPost({ test: 'test' });
+    // this.feedService.getPosts().subscribe((data) => console.log(data));
+    // this.feedService.addPost({ test: 'test' });
+  }
+  addPost() {
+    console.log('post');
+    this.popup = true;
+  }
+  cancelForm() {
+    this.popup = false;
   }
 }

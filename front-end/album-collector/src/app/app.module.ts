@@ -9,6 +9,7 @@ import { AlbumsGridComponent } from './albums-grid/albums-grid.component';
 import { FeedComponent } from './feed/feed.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { StickersGridComponent } from './stickers-grid/stickers-grid.component';
+import { PostPopUpFormComponent } from './post-pop-up-form/post-pop-up-form.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { StickersGridComponent } from './stickers-grid/stickers-grid.component';
     FeedComponent,
     UserProfileComponent,
     StickersGridComponent,
+    PostPopUpFormComponent,
   ],
   imports: [BrowserModule, HttpClientModule, AppRoutingModule, NgbModule],
   providers: [],

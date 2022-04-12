@@ -1,3 +1,7 @@
+<app-post-pop-up-form
+  *ngIf="popup"
+  [onCancel]="cancelForm()"
+></app-post-pop-up-form>
 <div style="background-color: #f0f2f5">
   <div class="container mt-4 mb-5">
     <div class="d-flex justify-content-center row">
@@ -6,7 +10,7 @@
           <div
             class="d-flex flex-row justify-content-between align-items-center p-2 bg-white border"
           >
-            <div class="feed-text px-2">
+            <div class="feed-text px-2" (click)="addPost()">
               <h6 class="text-black-50 mt-2">Add post</h6>
             </div>
             <div class="feed-icon px-2">
