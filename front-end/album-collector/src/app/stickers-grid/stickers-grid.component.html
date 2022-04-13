@@ -1,1 +1,12 @@
-<p>stickers-grid works!</p>
+<div class="container">
+  <div *ngFor="let row of rowRange; let i = index">
+    <div class="row">
+      <div
+        *ngFor="let col of colRange; let j = index"
+        class="col mx-auto stickerContainer"
+      >
+        <div class="sticker">{{ i * 20 + j + 1 }}</div>
+      </div>
+    </div>
+  </div>
+</div>
