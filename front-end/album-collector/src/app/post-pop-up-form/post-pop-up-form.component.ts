@@ -10,7 +10,6 @@ export class PostPopUpFormComponent implements OnInit {
   @Input() onCancel: void | undefined;
   ngOnInit(): void {}
   cancel() {
-    console.log('cancel');
     this.onCancel;
   }
 }
