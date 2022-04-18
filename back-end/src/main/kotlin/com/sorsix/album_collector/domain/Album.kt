@@ -6,14 +6,9 @@ import javax.persistence.*
 data class Album(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val Id: Long,
+    val Id: Long = 0,
     val name: String,
-    val imageUrl: String,
-    @OneToMany
-    val cards: List<Sticker>,
-//    @OneToMany
-//    val missingStickers: List<Sticker>,
-//    @OneToMany
-//    val duplicateStickers: List<Sticker>
-) {
-}
+    val imageUrl: String?,
+    @OneToMany(mappedBy = "album")
+    val stickers: MutableList<Sticker> = mutableListOf()
+)

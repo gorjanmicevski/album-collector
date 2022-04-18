@@ -6,13 +6,12 @@ import javax.persistence.*
 data class Collector(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
+    val id: Long = 0,
     val name: String,
-    val mail: String,
+    val email: String,
     val password: String,
-    val phone: String,
     @OneToMany
-    val albums: List<PrivateAlbumInstance>
+    val albums: MutableList<PrivateAlbumInstance> = mutableListOf()
 ) {
 
 }
