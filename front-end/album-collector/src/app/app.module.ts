@@ -10,7 +10,9 @@ import { FeedComponent } from './feed/feed.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { StickersGridComponent } from './stickers-grid/stickers-grid.component';
 import { PostPopUpFormComponent } from './post-pop-up-form/post-pop-up-form.component';
-
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,7 +23,15 @@ import { PostPopUpFormComponent } from './post-pop-up-form/post-pop-up-form.comp
     StickersGridComponent,
     PostPopUpFormComponent,
   ],
-  imports: [BrowserModule, HttpClientModule, AppRoutingModule, NgbModule],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    AppRoutingModule,
+    NgbModule,
+    InfiniteScrollModule,
+    NoopAnimationsModule,
+    FormsModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
