@@ -1,11 +1,25 @@
 <div class="container">
+  <div class="row d-flex justify-content-between pt-3">
+    <div class="col-2">
+      <select name="cars" id="cars">
+        <option value="volvo">All</option>
+        <option value="saab">Colecting</option>
+        <option value="mercedes">Colected</option>
+      </select>
+    </div>
+    <div class="col text-center">Album title</div>
+    <div class="col-2 text-end">Collected:X/Y</div>
+  </div>
+  <hr />
   <div *ngFor="let row of rowRange; let i = index">
     <div class="row">
       <div
         *ngFor="let col of colRange; let j = index"
         class="col mx-auto stickerContainer"
       >
-        <div class="sticker">{{ i * 20 + j + 1 }}</div>
+        <div [class]="stickerClass" (click)="alterSticker()">
+          {{ i * 20 + j + 1 }}
+        </div>
       </div>
     </div>
   </div>

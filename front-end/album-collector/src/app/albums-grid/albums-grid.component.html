@@ -1,50 +1,18 @@
 <div class="container">
-  <div *ngFor="let row of rowRange">
+  <div *ngFor="let row of rowRange; let i = index">
     <div class="row my-5">
-      <div class="col-2 mx-auto" style="border: 1px solid black; height: 18em">
+      <div
+        *ngFor="let col of cols; let j = index"
+        class="col-2 mx-auto"
+        style="height: 18em"
+      >
         <a routerLink="{{ 1 }}"
-          ><img [src]="albumsList[0]" style="width: 100%; height: 100%"
-        /></a>
-      </div>
-      <div class="col-2 mx-auto" style="border: 1px solid black">
-        <a routerLink="{{ 1 }}"
-          ><img [src]="albumsList[1]" style="width: 100%; height: 100%"
-        /></a>
-      </div>
-      <div class="col-2 mx-auto" style="border: 1px solid black">
-        <a routerLink="{{ 1 }}"
-          ><img [src]="albumsList[2]" style="width: 100%; height: 100%"
-        /></a>
-      </div>
-      <div class="col-2 mx-auto" style="border: 1px solid black">
-        <a routerLink="{{ 1 }}"
-          ><img [src]="albumsList[3]" style="width: 100%; height: 100%"
+          ><img
+            *ngIf="colRange(i * 4 + j)"
+            [src]="albumsList[i * 4 + j]"
+            style="width: 100%; height: 100%"
         /></a>
       </div>
     </div>
   </div>
-  <!-- <div class="row my-5">
-    <div class="col-2 mx-auto" style="border: 1px solid black; height: 18em">
-      <a routerLink="{{ 1 }}">Link</a>
-    </div>
-    <div class="col-2 mx-auto" style="border: 1px solid black">2 of 4</div>
-    <div class="col-2 mx-auto" style="border: 1px solid black">3 of 4</div>
-    <div class="col-2 mx-auto" style="border: 1px solid black">4 of 4</div>
-  </div>
-  <div class="row my-5">
-    <div class="col-2 mx-auto" style="border: 1px solid black; height: 18em">
-      1 of 4
-    </div>
-    <div class="col-2 mx-auto" style="border: 1px solid black">2 of 4</div>
-    <div class="col-2 mx-auto" style="border: 1px solid black">3 of 4</div>
-    <div class="col-2 mx-auto" style="border: 1px solid black">4 of 4</div>
-  </div>
-  <div class="row my-5">
-    <div class="col-2 mx-auto" style="border: 1px solid black; height: 18em">
-      1 of 4
-    </div>
-    <div class="col-2 mx-auto" style="border: 1px solid black">2 of 4</div>
-    <div class="col-2 mx-auto" style="border: 1px solid black">3 of 4</div>
-    <div class="col-2 mx-auto" style="border: 1px solid black">4 of 4</div>
-  </div> -->
 </div>

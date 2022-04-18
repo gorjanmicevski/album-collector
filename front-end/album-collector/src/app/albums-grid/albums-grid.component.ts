@@ -14,18 +14,24 @@ export class AlbumsGridComponent implements OnInit {
     'https://www.sleek-mag.com/wp-content/uploads/2016/08/AlbumCovers_Blonde-1200x1200.jpg',
     'https://media.npr.org/assets/img/2013/04/22/dark-side_sq-1da3a0a7b934f431c175c91396a1606b3adf5c83-s1100-c50.jpg',
     'https://cdn.kingscross.co.uk/media/20191118225723/Tame-Impala.jpeg',
+    'https://cdn3.iconfinder.com/data/icons/eightyshades/512/14_Add-512.png',
   ];
-  rowRange: Number[] = [];
+  rowRange: number[] = [];
+  cols = new Array(4);
   ngOnInit(): void {
     this.rowRange = new Array(this.calculateRows(this.albumsList));
     console.log(this.rowRange);
   }
-  calculateRows(list: String[]): Number {
+  calculateRows(list: String[]): number {
     if (list.length % 4 == 0) return list.length / 4;
 
     return Math.floor(list.length / 4) + 1;
   }
-  createRange(number: Number) {
+  colRange(index: number) {
+    if (this.albumsList.length <= index) return false;
+    return true;
+  }
+  createRange(number: number) {
     // var items: number[] = [];
     // for(var i = 1; i <= number; i++){
     //   items.push(i);
