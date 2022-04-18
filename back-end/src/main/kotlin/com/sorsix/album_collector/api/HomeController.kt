@@ -1,13 +1,13 @@
 package com.sorsix.album_collector.api
 
-import com.fasterxml.jackson.databind.util.JSONPObject
-import com.sorsix.album_collector.domain.DTO
-import com.sorsix.album_collector.domain.Event
-import com.sorsix.album_collector.domain.Post
+import com.sorsix.album_collector.domain.*
 import com.sorsix.album_collector.service.AlbumService
-import com.sorsix.album_collector.service.EventService
+import com.sorsix.album_collector.service.CollectorService
 import com.sorsix.album_collector.service.PostService
+import org.springframework.data.domain.Page
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @RequestMapping("/api")
@@ -15,46 +15,54 @@ import org.springframework.web.bind.annotation.*
 class HomeController(
     val albumService: AlbumService,
     val postService: PostService,
-    val eventService: EventService
+    val collectorService: CollectorService
 ) {
 
     @GetMapping
     fun getAlbums() = albumService.getAll()
 
-    fun getStickers() {
+    @GetMapping("/albums/{albumId}")
+    fun getStickers(@PathVariable albumId: Long): List<Sticker> {
+        return albumService.getStickersForAlbum(albumId)
+    }
+
+    @PostMapping("/registerCollector")
+    fun registerCollector(@RequestBody collector: CollectorRegistration): ResponseEntity<Collector> {
+        println(collector)
+        return ResponseEntity.ok(collectorService.createCollector(collector))
+    }
+
+    @GetMapping("/posts")
+    fun getPostsPaginated(
+        @RequestParam page: Int,
+        @RequestParam pageSize: Int
+    ): ResponseEntity<List<Post>> {
+        return ResponseEntity.ok(postService.getAllPaginated(page, pageSize))
+    }
+
+    @PostMapping("/createPost")
+    fun createPost(
+        @RequestBody postCreator: PostCreator,
+    ): ResponseEntity<Post> {
+        println(postCreator)
+        return ResponseEntity.ok(postService.create(postCreator))
+    }
+
+    @PutMapping("/updatePost/{postId}")
+    fun updatePost(
+        @PathVariable postId: Long,
+        @RequestBody postCreator: PostCreator
+    ): ResponseEntity<Post> {
         TODO()
     }
 
-    fun updateStickers() {
-        TODO()
+    @PostMapping("/importAlbum")
+    fun uploadAlbum(
+        @RequestParam file: MultipartFile,
+        @RequestParam name: String,
+        @RequestParam(required = false) image: String
+    ): ResponseEntity<Album> {
+        val album = albumService.importStickers(file, name, image)
+        return ResponseEntity.ok(album)
     }
-
-    @GetMapping("feed")
-    fun getPosts(): DTO {
-        println("feed")
-//        return postService.getAll()
-        return DTO("test")
-    }
-
-//    @PostMapping("/postPost")
-//    fun createPost(@RequestBody postCreator: PostCreator) {
-//        postService.create(postCreator)
-//    }
-    @PostMapping("feed")
-    fun createPost(@RequestBody post:DTO) {
-        println(post.test)
-    }
-    fun interactWithPost() {
-        TODO()
-    }
-
-    fun getEvents() = eventService.getAll()
-
-    fun createEvent(event: Event) = eventService.create(event)
-
-    fun interactWithEvent() {
-        TODO()
-    }
-
-
 }
