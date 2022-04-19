@@ -1,15 +1,22 @@
 import { Component, OnInit } from '@angular/core';
+import { FeedService } from '../feed.service';
+import { DomSanitizer } from '@angular/platform-browser';
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.css'],
 })
 export class UserProfileComponent implements OnInit {
-  constructor() {}
+  constructor(
+    private feedService: FeedService,
+    private sanitizer: DomSanitizer
+  ) {}
   editView = true;
   btnText = 'Edit Profile';
   selectedValue = 'All';
   options = ['All', 'Collected', 'Collecting'];
+  profileUrl: any = 'https://i.imgur.com/aoKusnD.jpg';
+  testImg: any;
   albumsList: String[] = [
     'https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/114/posts/34296/final_image/Final-image.jpg',
     'https://media.architecturaldigest.com/photos/5890e88033bd1de9129eab0a/3:4/w_650,h_867,c_limit/Artist-Designed%20Album%20Covers%202.jpg',
@@ -26,5 +33,30 @@ export class UserProfileComponent implements OnInit {
       this.editView = true;
       this.btnText = 'Edit Profile';
     }
+  }
+  onFileSelected(event: any) {
+    console.log(event);
+    this.onUpload(event.target.files[0]);
+    if (event.target.files) {
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (e: any) => {
+        this.profileUrl = e.target.result;
+      };
+    }
+  }
+  getProfilePic() {
+    this.feedService.getPP().subscribe((data: any) => {
+      console.log(data);
+      // let objectURL = 'data:image/png;base64,' + data;
+      // this.testImg = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+
+      // const reader = new FileReader();
+      // reader.readAsDataURL(new Blob([data]));
+      // reader.onload = (e: any) => (this.testImg = e.target.result);
+    });
+  }
+  onUpload(file: File) {
+    this.feedService.uploadFile(file);
   }
 }

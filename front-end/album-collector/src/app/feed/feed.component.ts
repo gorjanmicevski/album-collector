@@ -112,11 +112,4 @@ export class FeedComponent implements OnInit {
   getNewPage(page: number) {
     return this.allposts.slice(page * 2, page * 2 + 2);
   }
-  onFileSelected(event: any) {
-    console.log(event);
-    this.onUpload(event?.target!.files[0]);
-  }
-  onUpload(file: File) {
-    this.feedService.uploadFile(file);
-  }
 }

@@ -20,11 +20,14 @@ export class FeedService {
   }
   uploadFile(file: File) {
     const fd = new FormData();
-    fd.append('image', file, file.name);
+    fd.append('file', file);
     this.http
       .post(`http://localhost:8080/api/setProfilePicture/1`, fd)
       .subscribe((res) => {
         console.log(res);
       });
+  }
+  getPP() {
+    return this.http.get<Blob>(`http://localhost:8080/api/getProfilePicture/1`);
   }
 }
