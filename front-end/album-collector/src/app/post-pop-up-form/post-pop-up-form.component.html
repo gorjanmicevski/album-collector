@@ -65,16 +65,27 @@
         <option>5</option>
       </select>
     </div> -->
-    <div class="form-group">
-      <label for="exampleFormControlTextarea1">Missing/Duplicates</label>
-      <textarea
-        class="form-control"
-        id="exampleFormControlTextarea1"
-        rows="3"
-      ></textarea>
+    <div class="row">
+      <div class="col-6">
+        <label for="exampleFormControlTextarea1">Missing</label>
+        <textarea
+          class="form-control"
+          id="exampleFormControlTextarea1"
+          rows="3"
+        ></textarea>
+      </div>
+      <div class="col-6">
+        <label for="exampleFormControlTextarea1">Duplicates</label>
+        <textarea
+          class="form-control"
+          id="exampleFormControlTextarea1"
+          rows="3"
+        ></textarea>
+      </div>
     </div>
-
-    <button type="submit" class="btn btn-default">Submit</button>
-    <button (click)="cancel()" class="btn btn-default">Cancel</button>
+    <div class="text-end pe-4 mt-3">
+      <button (click)="cancel()" class="btn btn-danger">Cancel</button>
+      <button type="submit" class="btn btn-success">Submit</button>
+    </div>
   </form>
 </div>

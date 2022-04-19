@@ -1,11 +1,65 @@
+<<<<<<< Updated upstream
 <div class="container">
   <div *ngFor="let row of rowRange; let i = index">
     <div class="row">
+=======
+<div class="container" *ngIf="stickers != undefined">
+  <div class="row d-flex justify-content-between pt-3">
+    <div class="col-2">
+      <!-- <select name="cars" id="cars" >
+        <option value="volvo">All</option>
+        <option value="saab">Missing</option>
+        <option value="mercedes">Duplicates</option>
+        <option value="mercedes">Collected</option>
+      </select> -->
+      <div ngbDropdown class="d-inline-block">
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          id="dropdownBasic1"
+          ngbDropdownToggle
+        >
+          {{ selected }}
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button (click)="filterStickers('All')" ngbDropdownItem>All</button>
+          <button (click)="filterStickers('Missing')" ngbDropdownItem>
+            Missing
+          </button>
+          <button (click)="filterStickers('Duplicates')" ngbDropdownItem>
+            Duplicates
+          </button>
+          <button (click)="filterStickers('Collected')" ngbDropdownItem>
+            Collected
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col text-center">Album title</div>
+    <div class="col-2 text-end">Collected:X/Y</div>
+  </div>
+  <hr />
+  <div class="row" *ngFor="let row of rowRange; let i = index">
+    <div
+      *ngFor="let col of colRange; let j = index"
+      class="col mx-auto stickerContainer"
+    >
+>>>>>>> Stashed changes
       <div
-        *ngFor="let col of colRange; let j = index"
-        class="col mx-auto stickerContainer"
+        (click)="alterSticker(i * 20 + j)"
+        *ngIf="inColRange(i * 20 + j)"
+        [ngClass]="{
+          'sticker-missing': stickers[i * 20 + j].stickerClass === 'missing',
+          'sticker-collected':
+            stickers[i * 20 + j].stickerClass === 'collected',
+          'sticker-duplicate': stickers[i * 20 + j].stickerClass === 'duplicate'
+        }"
       >
+<<<<<<< Updated upstream
         <div class="sticker">{{ i * 20 + j + 1 }}</div>
+=======
+        <div>{{ stickers[i * 20 + j].number }}</div>
+>>>>>>> Stashed changes
       </div>
     </div>
   </div>
