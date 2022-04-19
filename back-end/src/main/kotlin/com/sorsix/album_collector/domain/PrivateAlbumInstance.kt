@@ -1,5 +1,6 @@
 package com.sorsix.album_collector.domain
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
 @Entity
@@ -8,9 +9,14 @@ data class PrivateAlbumInstance(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val Id: Long,
     @ManyToOne
+    val collector: Collector,
+    @ManyToOne
+    @JsonIgnore
     val albumId: Album,
     @OneToMany
-    val missingStickers: List<Sticker>,
+    val allStickers: MutableList<Sticker> = mutableListOf(),
     @OneToMany
-    val duplicateStickers: List<Sticker>
+    val missingStickers: MutableList<Sticker> = mutableListOf(),
+    @OneToMany
+    val duplicateStickers: MutableList<Sticker> = mutableListOf()
 )

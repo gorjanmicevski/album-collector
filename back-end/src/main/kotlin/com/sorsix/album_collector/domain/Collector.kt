@@ -10,8 +10,8 @@ data class Collector(
     val name: String,
     val email: String,
     val password: String,
-    @OneToMany
-    val albums: MutableList<PrivateAlbumInstance> = mutableListOf()
-) {
-
-}
+    @OneToMany(mappedBy = "collector")
+    val albums: MutableList<PrivateAlbumInstance> = mutableListOf(),
+    @Lob
+    var profilePicture: ByteArray? = null
+)

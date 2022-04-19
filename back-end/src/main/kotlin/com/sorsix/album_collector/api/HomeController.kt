@@ -5,9 +5,12 @@ import com.sorsix.album_collector.service.AlbumService
 import com.sorsix.album_collector.service.CollectorService
 import com.sorsix.album_collector.service.PostService
 import org.springframework.data.domain.Page
+import org.springframework.http.HttpHeaders
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
+import java.net.URI
 
 @RestController
 @RequestMapping("/api")
@@ -30,6 +33,21 @@ class HomeController(
     fun registerCollector(@RequestBody collector: CollectorRegistration): ResponseEntity<Collector> {
         println(collector)
         return ResponseEntity.ok(collectorService.createCollector(collector))
+    }
+
+    @PostMapping("/setProfilePicture/{collectorId}")
+    fun setProfilePicture(@PathVariable collectorId: Long, @RequestParam file: MultipartFile): ResponseEntity<Any> {
+        collectorService.setProfilePicture(collectorId, file)
+        return ResponseEntity.created(URI("/setProfilePicture/${collectorId}")).build()
+    }
+
+    @GetMapping("/getProfilePicture/{collectorId}")
+    fun getProfilePicture(@PathVariable collectorId: Long): ResponseEntity<Any> {
+        val image: ByteArray = collectorService.getProfilePicture(collectorId)
+        return ResponseEntity.ok()
+            .contentType(MediaType.parseMediaType(MediaType.IMAGE_JPEG_VALUE))
+            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"${System.currentTimeMillis()}\"")
+            .body(image)
     }
 
     @GetMapping("/posts")
