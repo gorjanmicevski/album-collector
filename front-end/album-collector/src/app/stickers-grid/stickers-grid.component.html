@@ -1,8 +1,4 @@
-<<<<<<< Updated upstream
-<div class="container">
-  <div *ngFor="let row of rowRange; let i = index">
-    <div class="row">
-=======
+
 <div class="container" *ngIf="stickers != undefined">
   <div class="row d-flex justify-content-between pt-3">
     <div class="col-2">
@@ -44,7 +40,6 @@
       *ngFor="let col of colRange; let j = index"
       class="col mx-auto stickerContainer"
     >
->>>>>>> Stashed changes
       <div
         (click)="alterSticker(i * 20 + j)"
         *ngIf="inColRange(i * 20 + j)"
@@ -55,11 +50,10 @@
           'sticker-duplicate': stickers[i * 20 + j].stickerClass === 'duplicate'
         }"
       >
-<<<<<<< Updated upstream
-        <div class="sticker">{{ i * 20 + j + 1 }}</div>
-=======
         <div>{{ stickers[i * 20 + j].number }}</div>
->>>>>>> Stashed changes
+        <div [class]="stickerClass" (click)="alterSticker()">
+          {{ i * 20 + j + 1 }}
+        </div>
       </div>
     </div>
   </div>

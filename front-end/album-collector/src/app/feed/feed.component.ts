@@ -9,8 +9,6 @@ import { FeedService } from '../feed.service';
 export class FeedComponent implements OnInit {
   constructor(private feedService: FeedService) {}
   popup = false;
-<<<<<<< Updated upstream
-=======
   allposts = [
     {
       username: 'Gorjan',
@@ -94,7 +92,7 @@ export class FeedComponent implements OnInit {
     place: string;
   }[] = [];
   page = 1;
->>>>>>> Stashed changes
+
   ngOnInit(): void {
     // this.feedService.getPosts().subscribe((data) => console.log(data));
     // this.feedService.addPost({ test: 'test' });
@@ -106,5 +104,12 @@ export class FeedComponent implements OnInit {
   }
   cancelForm() {
     this.popup = false;
+  }
+  onScroll() {
+    this.page += 1;
+    this.posts = [...this.posts, ...this.getNewPage(this.page)];
+  }
+  getNewPage(page: number) {
+    return this.allposts.slice(page * 2, page * 2 + 2);
   }
 }

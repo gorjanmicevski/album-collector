@@ -5,10 +5,12 @@ import java.time.LocalDateTime
 
 data class PostCreator(
     val collectorId: Long,
-    val albumId: Long,
-    val duplicateStickers: List<Int>?,
-    val missingStickers: List<Int>?,
-    val imageDuplicatesStickers: String?,
-    val imageMissingStickers: String?,
-    val dateTimeCreated: LocalDateTime
+    val description: String,
+    val phone: String,
+    val location: String,
+    val albumName: String,
+    val duplicateStickers: String?,
+    val missingStickers: String?,
+//    val imageDuplicatesStickers: String?,
+//    val imageMissingStickers: String?
 )

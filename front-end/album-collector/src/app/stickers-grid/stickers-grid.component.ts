@@ -11,9 +11,7 @@ export class StickersGridComponent implements OnInit {
   constructor(private feedService: FeedService) {}
   rowRange = new Array(0);
   colRange = new Array(20);
-<<<<<<< Updated upstream
   ngOnInit(): void {}
-=======
   stickers: any[] | undefined;
   allStickers: any[] | undefined;
   test = 'All';
@@ -77,5 +75,4 @@ export class StickersGridComponent implements OnInit {
 
     console.log(option);
   }
->>>>>>> Stashed changes
 }
