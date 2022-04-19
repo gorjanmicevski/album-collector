@@ -96,7 +96,7 @@ export class FeedComponent implements OnInit {
   ngOnInit(): void {
     // this.feedService.getPosts().subscribe((data) => console.log(data));
     // this.feedService.addPost({ test: 'test' });
-    this.posts = [...this.posts, ...this.getNewPage(this.page)];
+    //this.posts = [...this.posts, ...this.getNewPage(this.page)];
   }
   addPost() {
     console.log('post');
@@ -111,5 +111,12 @@ export class FeedComponent implements OnInit {
   }
   getNewPage(page: number) {
     return this.allposts.slice(page * 2, page * 2 + 2);
+  }
+  onFileSelected(event: any) {
+    console.log(event);
+    this.onUpload(event?.target!.files[0]);
+  }
+  onUpload(file: File) {
+    this.feedService.uploadFile(file);
   }
 }

@@ -11,7 +11,6 @@ export class StickersGridComponent implements OnInit {
   constructor(private feedService: FeedService) {}
   rowRange = new Array(0);
   colRange = new Array(20);
-  ngOnInit(): void {}
   stickers: any[] | undefined;
   allStickers: any[] | undefined;
   test = 'All';
@@ -40,7 +39,6 @@ export class StickersGridComponent implements OnInit {
     switch (this.stickers![index].stickerClass) {
       case 'missing':
         this.stickers![index].stickerClass = 'collected';
-
         break;
       case 'collected':
         this.stickers![index].stickerClass = 'duplicate';
