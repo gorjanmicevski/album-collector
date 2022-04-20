@@ -28,6 +28,8 @@ export class FeedService {
       });
   }
   getPP() {
-    return this.http.get<Blob>(`http://localhost:8080/api/getProfilePicture/1`);
+    return this.http.get(`http://localhost:8080/api/getProfilePicture/1`, {
+      responseType: 'blob',
+    });
   }
 }

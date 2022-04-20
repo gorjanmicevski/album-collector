@@ -1,72 +1,155 @@
-<div class="overlay" (click)="cancel()"></div>
--->
-<div class="popup">
-  <div
-    class="d-flex flex-row justify-content-between align-items-center p-2 border-bottom"
-  >
-    <div class="d-flex flex-row align-items-center feed-text px-2">
-      <img
-        class="rounded-circle"
-        src="https://i.imgur.com/aoKusnD.jpg"
-        width="45"
-      />
-      <div class="d-flex flex-column flex-wrap ml-2">
-        <span class="font-weight-bold">Dimitar</span
-        ><span class="text-black-50 time">40 minutes ago</span>
-      </div>
+<div class="modal-header">
+  <div class="d-flex flex-row">
+    <img
+      class="rounded-circle"
+      src="https://i.imgur.com/aoKusnD.jpg"
+      width="45"
+    />
+    <div class="d-flex flex-column flex-wrap ps-3">
+      <span class="font-weight-bold"> Dimitar</span
+      ><span class="text-black-50 time"> 40 minutes ago</span>
     </div>
   </div>
-  <form class="pt-3">
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  ></button>
+</div>
+<div class="modal-body">
+  <form #myForm="ngForm">
+    <!-- <label for="dateOfBirth">Date of birth</label> -->
+    <!-- <div class="input-group">
+        <input
+          id="dateOfBirth"
+          class="form-control"
+          placeholder="yyyy-mm-dd"
+          name="dp"
+          ngbDatepicker
+          #dp="ngbDatepicker"
+        />
+        <button
+          class="btn btn-outline-secondary calendar"
+          (click)="dp.toggle()"
+          type="button"
+        ></button>
+      </div> -->
     <div class="form-group">
       <label for="exampleFormControlTextarea1">Description</label>
       <textarea
+        [(ngModel)]="post.description"
+        name="description"
         class="form-control"
         id="exampleFormControlTextarea1"
         rows="3"
       ></textarea>
     </div>
-    <div class="form-group pt-3">
-      <label for="exampleFormControlInput1">Phone</label>
-      <input
-        type="text"
-        class="form-control"
-        id="exampleFormControlInput1"
-        placeholder="+3897#######"
-      />
+    <div class="form-group pt-3 row">
+      <div class="col-6">
+        <label for="exampleFormControlInput1">Phone</label>
+        <input
+          [(ngModel)]="post.phone"
+          name="phone"
+          type="text"
+          class="form-control"
+          id="exampleFormControlInput1"
+          placeholder=""
+        />
+      </div>
+      <div class="col-6">
+        <label for="exampleFormControlInput1">Place</label>
+        <input
+          [(ngModel)]="post.place"
+          name="place"
+          type="text"
+          class="form-control"
+          id="ul. Example br. X"
+          placeholder=""
+        />
+      </div>
     </div>
-    <div class="form-group pt-3">
-      <label for="exampleFormControlInput1">Place</label>
-      <input
-        type="text"
-        class="form-control"
-        id="ul. Example br. X"
-        placeholder="+3897#######"
-      />
+    <div class="row">
+      <label class="col-6" for="exampleFormControlTextarea1">Missing</label>
+      <label class="col-6" for="exampleFormControlTextarea1">Duplicates</label>
     </div>
-    <!-- -----------------!!!!!!!!_---------------------- -->
-    <!-- <div class="form-/-->
-    <!-- -----------------!!!!!!!!_---------------------- -->
     <div class="row">
       <div class="col-6">
-        <label for="exampleFormControlTextarea1">Missing</label>
         <textarea
+          *ngIf="urlMissing == ''"
+          [(ngModel)]="post.missingCards"
+          name="missing"
           class="form-control"
           id="exampleFormControlTextarea1"
           rows="3"
         ></textarea>
+        <img
+          class="col-12"
+          *ngIf="urlMissing != ''"
+          [src]="urlMissing"
+          [(ngModel)]="post.missingCardsImg"
+          name="missingImage"
+        />
       </div>
       <div class="col-6">
-        <label for="exampleFormControlTextarea1">Duplicates</label>
         <textarea
+          *ngIf="urlDuplicates == ''"
+          [(ngModel)]="post.duplicateCards"
+          name="duplicates"
           class="form-control"
           id="exampleFormControlTextarea1"
           rows="3"
         ></textarea>
+        <img
+          *ngIf="urlDuplicates != ''"
+          [src]="urlDuplicates"
+          class="col-12"
+          [(ngModel)]="post.duplicateCardsImg"
+          name="duplicatesImage"
+        />
       </div>
     </div>
-    <div class="text-end pe-4 mt-3">
-      <button (click)="cancel()" class="btn btn-danger">Cancel</button>
-      <button type="submit" class="btn btn-success">Submit</button>
+    <div class="row">
+      <div class="mt-2 btn-group col-6">
+        <button class="btn btn-outline-dark" (click)="importStickers('m')">
+          Input missing from profile
+        </button>
+        <button class="btn btn-outline-dark" (click)="imageMissing.click()">
+          Upload photo
+          <input
+            type="file"
+            #imageMissing
+            hidden
+            (change)="onFileSelected($event, 'm')"
+          />
+        </button>
+      </div>
+      <div class="mt-2 btn-group col-6">
+        <button class="btn btn-outline-dark" (click)="importStickers('d')">
+          Input duplicates from profile
+        </button>
+
+        <button class="btn btn-outline-dark" (click)="imageDuplicates.click()">
+          Upload photo
+          <input
+            type="file"
+            #imageDuplicates
+            hidden
+            (change)="onFileSelected($event, 'd')"
+          />
+        </button>
+      </div>
     </div>
   </form>
+</div>
+
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-outline-dark"
+    (click)="activeModal.close('Close click')"
+  >
+    Cancel
+  </button>
+  <button type="button" class="btn btn-info" (click)="submit()">Submit</button>
 </div>

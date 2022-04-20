@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FeedService } from '../feed.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { tap } from 'rxjs';
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -46,15 +47,16 @@ export class UserProfileComponent implements OnInit {
     }
   }
   getProfilePic() {
-    this.feedService.getPP().subscribe((data: any) => {
-      console.log(data);
-      // let objectURL = 'data:image/png;base64,' + data;
-      // this.testImg = this.sanitizer.bypassSecurityTrustUrl(objectURL);
-
-      // const reader = new FileReader();
-      // reader.readAsDataURL(new Blob([data]));
-      // reader.onload = (e: any) => (this.testImg = e.target.result);
-    });
+    console.log('inn');
+    this.feedService
+      .getPP()
+      .pipe(tap((e) => console.log(e)))
+      .subscribe((blob: any) => {
+        console.log('inn');
+        console.log(blob);
+        let objectURL = URL.createObjectURL(blob);
+        this.testImg = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+      });
   }
   onUpload(file: File) {
     this.feedService.uploadFile(file);

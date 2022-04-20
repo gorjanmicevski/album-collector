@@ -41,19 +41,16 @@ export class AlbumsGridComponent implements OnInit {
     // return items;
     return new Array(number);
   }
-  open(content: any) {
-    this.modalService
-      .open(content, { ariaLabelledBy: 'modal-basic-title' })
-      .result.then(
-        (result) => {
-          this.closeResult = `Closed with: ${result}`;
-        },
-        (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        }
-      );
+  open() {
+    this.modalService.open(PostPopUpFormComponent).result.then(
+      (result) => {
+        this.closeResult = `Closed with: ${result}`;
+      },
+      (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      }
+    );
     console.log(this.closeResult);
-    // this.modalService.open(PostPopUpFormComponent);
   }
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
