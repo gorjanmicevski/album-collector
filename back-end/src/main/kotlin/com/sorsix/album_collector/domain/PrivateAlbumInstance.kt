@@ -7,16 +7,17 @@ import javax.persistence.*
 data class PrivateAlbumInstance(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val Id: Long,
+    val Id: Long = 0,
     @ManyToOne
+    @JsonIgnore
     val collector: Collector,
     @ManyToOne
     @JsonIgnore
-    val albumId: Album,
+    val album: Album,
+//    @OneToMany
+//    val allStickers: List<Sticker>,
     @OneToMany
-    val allStickers: MutableList<Sticker> = mutableListOf(),
+    val collectedStickers: MutableList<Sticker>,
     @OneToMany
-    val missingStickers: MutableList<Sticker> = mutableListOf(),
-    @OneToMany
-    val duplicateStickers: MutableList<Sticker> = mutableListOf()
+    val duplicateStickers: MutableList<Sticker>
 )

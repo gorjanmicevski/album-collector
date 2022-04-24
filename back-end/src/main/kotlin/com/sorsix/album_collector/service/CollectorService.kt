@@ -6,7 +6,8 @@ import org.springframework.web.multipart.MultipartFile
 
 interface CollectorService {
     fun getMissingStickers()
-    fun createCollector(collector: CollectorRegistration): Collector
+    fun createCollector(collectorRegistration: CollectorRegistration): Collector
     fun setProfilePicture(collectorId: Long, file: MultipartFile)
     fun getProfilePicture(collectorId: Long): ByteArray
+    fun emailTaken(email: String): Boolean
 }

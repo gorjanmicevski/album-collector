@@ -1,13 +1,19 @@
 package com.sorsix.album_collector.api
 
 import com.sorsix.album_collector.domain.*
+import com.sorsix.album_collector.security.jwt.JwtUtils
+import com.sorsix.album_collector.security.service.UserDetailsImpl
 import com.sorsix.album_collector.service.AlbumService
 import com.sorsix.album_collector.service.CollectorService
 import com.sorsix.album_collector.service.PostService
-import org.springframework.data.domain.Page
+import com.sorsix.album_collector.service.impl.PrivateAlbumInstanceService
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
+import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import java.net.URI
@@ -18,7 +24,10 @@ import java.net.URI
 class HomeController(
     val albumService: AlbumService,
     val postService: PostService,
-    val collectorService: CollectorService
+    val collectorService: CollectorService,
+    val privateAlbumInstanceService: PrivateAlbumInstanceService,
+    val authenticationManager: AuthenticationManager,
+    val jwtUtils: JwtUtils
 ) {
 
     @GetMapping
@@ -29,10 +38,38 @@ class HomeController(
         return albumService.getStickersForAlbum(albumId)
     }
 
-    @PostMapping("/registerCollector")
-    fun registerCollector(@RequestBody collector: CollectorRegistration): ResponseEntity<Collector> {
-        println(collector)
-        return ResponseEntity.ok(collectorService.createCollector(collector))
+    @PostMapping("/auth/registerCollector")
+    fun registerCollector(@RequestBody collectorRegistration: CollectorRegistration): ResponseEntity<Any> {
+        if (collectorService.emailTaken(collectorRegistration.email)) {
+            return ResponseEntity.badRequest().body("Error: Email already used")
+        }
+        return ResponseEntity.ok(collectorService.createCollector(collectorRegistration))
+    }
+
+    @PostMapping("/auth/login")
+    fun login(loginRequest: LoginRequest): ResponseEntity<Any> {
+        val authentication: Authentication = authenticationManager.authenticate(
+            UsernamePasswordAuthenticationToken(loginRequest.email, loginRequest.password)
+        )
+        SecurityContextHolder.getContext().authentication = authentication
+        val jwt: String = jwtUtils.generateJwtToken(authentication)
+
+        val userDetails: UserDetailsImpl = authentication.principal as UserDetailsImpl
+        val roles: List<String> = userDetails.authorities.stream()
+            .map { it.authority }
+            .toList()
+        return ResponseEntity.ok(
+            JwtResponse(
+                token = jwt,
+                id = userDetails.id,
+                name = userDetails.name,
+                surname = userDetails.surname,
+                email = userDetails.email,
+                roles = roles,
+                albums = userDetails.albums,
+                profilePicture = userDetails.profilePicture
+            )
+        )
     }
 
     @PostMapping("/setProfilePicture/{collectorId}")
@@ -82,5 +119,30 @@ class HomeController(
     ): ResponseEntity<Album> {
         val album = albumService.importStickers(file, name, image)
         return ResponseEntity.ok(album)
+    }
+
+    @PostMapping("/privateAlbum/create")
+    fun addAlbumForCollector(
+        @RequestParam collectorId: Long,
+        @RequestParam albumId: Long
+    ): ResponseEntity<PrivateAlbumInstance> {
+        return ResponseEntity.ok(privateAlbumInstanceService.createPrivateInstance(collectorId, albumId))
+    }
+
+    @GetMapping("/privateAlbum/missingStickers")
+    fun getMissingStickers(
+        @RequestParam collectorId: Long,
+        @RequestParam albumId: Long
+    ): ResponseEntity<String> {
+        return ResponseEntity.ok(privateAlbumInstanceService.getMissingStickers(collectorId, albumId))
+    }
+
+    @PutMapping("/privateAlbum/collectSticker")
+    fun collectSticker(
+        @RequestParam collectorId: Long,
+        @RequestParam albumId: Long,
+        @RequestParam stickerNumber: String
+    ) {
+        privateAlbumInstanceService.addNewCollectedSticker(collectorId, albumId, stickerNumber)
     }
 }
