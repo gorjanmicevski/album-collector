@@ -2,13 +2,28 @@
   <div class="row d-flex justify-content-between">
     <div class="col-3 d-flex flex-column align-items-center pt-5">
       <img class="rounded-circle" [src]="profileUrl" width="90%" />
+      <!-- <img /> -->
       <!-- <h4>Gorjan Micevski</h4>
       <p class="small">gorjanmicevski@mail.com</p> -->
+      <button
+        class="my-2"
+        style="border-radius: 6px; background-color: white"
+        (click)="uploadPP.click()"
+      >
+        <i class="fas fa-camera fa-lg"></i>
+      </button>
+      <p class="small">Gorjan Micevski</p>
+      <div>
+        <a>
+          <i class="fab fa-facebook fa-lg mx-2 socialMedia"></i>
+        </a>
+        <i class="fab fa-instagram fa-lg mx-2 socialMedia"></i>
 
-      <h1>File upload</h1>
-      <input type="file" (change)="onFileSelected($event)" />
-      <img class="rounded-circle" [src]="testImg" width="90%" />
-      <button (click)="getProfilePic()">Click</button>
+        <i class="fab fa-twitter fa-lg mx-2 socialMedia"></i>
+      </div>
+      <input #uploadPP type="file" hidden (change)="onFileSelected($event)" />
+      <!-- <img class="rounded-circle" [src]="testImg" width="90%" />
+      <button (click)="getProfilePic()">Click</button> -->
     </div>
     <div class="col-5 border-left-right">
       <div class="p-3 py-5">
