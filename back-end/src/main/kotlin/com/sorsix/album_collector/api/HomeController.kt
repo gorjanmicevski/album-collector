@@ -99,9 +99,17 @@ class HomeController(
     @PostMapping("/createPost")
     fun createPost(
         @RequestBody postCreator: PostCreator,
+        @RequestParam(required = false) imageMissing: MultipartFile?,
+        @RequestParam(required = false) imageDuplicates: MultipartFile?
     ): ResponseEntity<Post> {
         println(postCreator)
-        return ResponseEntity.ok(postService.create(postCreator))
+        return ResponseEntity.ok(
+            postService.create(
+                post = postCreator,
+                imageDuplicates = imageDuplicates,
+                imageMissing = imageMissing
+            )
+        )
     }
 
     @PutMapping("/updatePost/{postId}")

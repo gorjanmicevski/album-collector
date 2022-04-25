@@ -1,6 +1,6 @@
 package com.sorsix.album_collector.domain
 
-import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonIncludeProperties
 import java.time.LocalDateTime
 import javax.persistence.*
 
@@ -10,16 +10,36 @@ data class Post(
     @GeneratedValue
     val id: Long = 0,
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    @JsonIncludeProperties("name", "surname")
     val collector: Collector,
-    val collectorName: String,
-    val description: String,
-    val phone: String,
-    val location: String,
-    val albumName: String,
-    val duplicateStickers: String?,
-    val missingStickers: String?,
-//    val imageDuplicatesStickers: String?,
-//    val imageMissingStickers: String?,
+    var collectorName: String,
+    var description: String,
+    var phone: String,
+    var location: String,
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIncludeProperties("name")
+    var album: Album,
+    var duplicateStickers: String?,
+    var missingStickers: String?,
+    var imageDuplicatesStickers: ByteArray?,
+    var imageMissingStickers: ByteArray?,
     val dateTimeCreated: LocalDateTime
-)
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Post
+
+        if (!imageDuplicatesStickers.contentEquals(other.imageDuplicatesStickers)) return false
+        if (!imageMissingStickers.contentEquals(other.imageMissingStickers)) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = imageDuplicatesStickers.contentHashCode()
+        result = 31 * result + imageMissingStickers.contentHashCode()
+        return result
+    }
+}

@@ -2,9 +2,10 @@ package com.sorsix.album_collector.service
 
 import com.sorsix.album_collector.api.PostCreator
 import com.sorsix.album_collector.domain.Post
+import org.springframework.web.multipart.MultipartFile
 
 interface PostService {
     fun getAllPaginated(page: Int, pageSize: Int): List<Post>
-    fun create(post: PostCreator): Post
-    fun update(post: PostCreator, postId: Long): Post
+    fun create(post: PostCreator, imageMissing: MultipartFile?, imageDuplicates: MultipartFile?): Post
+    fun update(post: PostCreator, imageMissing: MultipartFile?, imageDuplicates: MultipartFile?, postId: Long): Post
 }

@@ -1,6 +1,7 @@
 package com.sorsix.album_collector.domain
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonIncludeProperties
 import javax.persistence.*
 
 @Entity
@@ -12,6 +13,6 @@ data class Sticker(
     val number: String,
     val page: String,
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    @JsonIncludeProperties("name")
     val album: Album
 )

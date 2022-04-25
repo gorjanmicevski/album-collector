@@ -1,17 +1,20 @@
 package com.sorsix.album_collector.domain
 
+import com.fasterxml.jackson.annotation.JsonIncludeProperties
 import javax.persistence.*
 
 @Entity
 data class Event(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id:Long,
-    val name:String,
-    val place:String,
+    val id: Long,
+    val title: String,
+    val place: String,
     @OneToMany
-    val collectorsGoing:List<Collector>,
+    @JsonIncludeProperties("name")
+    val albums: List<Album>,
     @OneToMany
-    val collectorsInterested:List<Collector>
-) {
-}
+    val collectorsGoing: List<Collector>,
+    @OneToMany
+    val collectorsInterested: List<Collector>
+)

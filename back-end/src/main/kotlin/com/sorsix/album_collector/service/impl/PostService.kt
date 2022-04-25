@@ -8,7 +8,7 @@ import com.sorsix.album_collector.repository.PostRepository
 import com.sorsix.album_collector.service.PostService
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
-import java.awt.print.Pageable
+import org.springframework.web.multipart.MultipartFile
 import java.time.LocalDateTime
 
 @Service
@@ -21,8 +21,9 @@ class PostService(
         return postRepository.findAll(PageRequest.of(page - 1, pageSize)).content
     }
 
-    override fun create(post: PostCreator): Post {
+    override fun create(post: PostCreator, imageMissing: MultipartFile?, imageDuplicates: MultipartFile?): Post {
         val collector = collectorRepository.findById(post.collectorId).get()
+        val album = albumRepository.findById(post.albumId).get()
         return postRepository.save(
             Post(
                 collector = collector,
@@ -30,17 +31,34 @@ class PostService(
                 description = post.description,
                 phone = post.phone,
                 location = post.location,
-                albumName = post.albumName,
+                album = album,
                 duplicateStickers = post.duplicateStickers,
                 missingStickers = post.missingStickers,
+                imageMissingStickers = imageMissing?.bytes,
+                imageDuplicatesStickers = imageDuplicates?.bytes,
                 dateTimeCreated = LocalDateTime.now()
             )
         )
     }
 
-    override fun update(post: PostCreator, postId: Long): Post {
+    override fun update(
+        post: PostCreator,
+        imageMissing: MultipartFile?,
+        imageDuplicates: MultipartFile?,
+        postId: Long
+    ): Post {
         val postToUpdate = postRepository.findById(postId).get()
         val collector = collectorRepository.findById(post.collectorId).get()
-        TODO()
+        val album = albumRepository.findById(post.albumId).get()
+        postToUpdate.description = post.description
+        postToUpdate.phone = post.phone
+        postToUpdate.location = post.location
+        postToUpdate.album = album
+        postToUpdate.duplicateStickers = post.duplicateStickers
+        postToUpdate.missingStickers = post.missingStickers
+        postToUpdate.imageMissingStickers = imageMissing?.bytes
+        postToUpdate.imageDuplicatesStickers = imageDuplicates?.bytes
+        postToUpdate.collectorName = collector.name
+        return postRepository.save(postToUpdate)
     }
 }
