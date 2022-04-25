@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FeedService } from '../feed.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { PostPopUpFormComponent } from '../post-pop-up-form/post-pop-up-form.component';
-
+import { formatDate } from '@angular/common';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-feed',
   templateUrl: './feed.component.html',
@@ -11,104 +12,45 @@ import { PostPopUpFormComponent } from '../post-pop-up-form/post-pop-up-form.com
 export class FeedComponent implements OnInit {
   constructor(
     private feedService: FeedService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private router: Router
   ) {}
   closeResult = '';
-  allposts = [
-    {
-      username: 'Gorjan',
-      dateTime: '40 minutes ago',
-      missingCards: 10,
-      duplicateCards: 100,
-      phone: '070238300',
-      place: 'rekord',
-    },
-    {
-      username: 'Gorjan',
-      dateTime: '40 minutes ago',
-      missingCards: 10,
-      duplicateCards: 100,
-      phone: '070238300',
-      place: 'rekord',
-    },
-    {
-      username: 'Gorjan',
-      dateTime: '40 minutes ago',
-      missingCards: 10,
-      duplicateCards: 100,
-      phone: '070238300',
-      place: 'rekord',
-    },
-    {
-      username: 'Gorjan',
-      dateTime: '40 minutes ago',
-      missingCards: 10,
-      duplicateCards: 100,
-      phone: '070238300',
-      place: 'rekord',
-    },
-    {
-      username: 'Gorjan',
-      dateTime: '40 minutes ago',
-      missingCards: 10,
-      duplicateCards: 100,
-      phone: '070238300',
-      place: 'rekord',
-    },
-    {
-      username: 'Gorjan',
-      dateTime: '40 minutes ago',
-      missingCards: 10,
-      duplicateCards: 100,
-      phone: '070238300',
-      place: 'rekord',
-    },
-    {
-      username: 'Gorjan',
-      dateTime: '40 minutes ago',
-      missingCards: 10,
-      duplicateCards: 100,
-      phone: '070238300',
-      place: 'rekord',
-    },
-    {
-      username: 'Gorjan',
-      dateTime: '40 minutes ago',
-      missingCards: 10,
-      duplicateCards: 100,
-      phone: '070238300',
-      place: 'rekord',
-    },
-    {
-      username: 'Gorjan',
-      dateTime: '40 minutes ago',
-      missingCards: 10,
-      duplicateCards: 100,
-      phone: '070238300',
-      place: 'rekord',
-    },
-  ];
-  posts: {
-    username: string;
-    dateTime: string;
-    missingCards: number;
-    duplicateCards: number;
-    phone: string;
-    place: string;
-  }[] = [];
-  page = 1;
+  posts: any[] = [];
+  page = -1;
 
   ngOnInit(): void {
-    // this.feedService.getPosts().subscribe((data) => console.log(data));
-    // this.feedService.addPost({ test: 'test' });
-    this.posts = [...this.posts, ...this.getNewPage(this.page)];
+    this.getNewPage();
   }
   onScroll() {
-    this.page += 1;
-    this.posts = [...this.posts, ...this.getNewPage(this.page)];
+    this.getNewPage();
   }
-  getNewPage(page: number) {
-    return this.allposts.slice(page * 4, page * 4 + 4);
+  getNewPage() {
+    this.page += 1;
+    this.feedService.getPosts(this.page, 4).subscribe((data) => {
+      this.posts = [...this.posts, ...data];
+    });
+  }
+  getTime(dateTime: string) {
+    var now = formatDate(new Date(), 'YYYY-MM-ddTHH:mm:ss', 'en');
+    var then = formatDate(dateTime, 'YYYY-MM-ddTHH:mm:ss', 'en');
+    var datenow = new Date(now);
+    var datethen = new Date(then);
+    var Time = datenow.getTime() - datethen.getTime();
+    var Days = Math.floor(Time / (1000 * 3600 * 24));
+    var Hours = Math.floor(Time / (1000 * 3600));
+    var Minutes = Math.floor(Time / (1000 * 60));
+    var Seconds = Math.floor(Time / 1000);
+    if (Days > 1) return `${Days} days ago`;
+    else if (Days == 1) return `${Days} day ago`;
+    else {
+      if (Hours > 1) return `${Hours} hour ago`;
+      else if (Hours == 1) return `${Hours} hour ago`;
+      else {
+        if (Minutes > 1) return `${Minutes} minutes ago`;
+        else return 'just now';
+      }
+    }
   }
   open() {
     this.modalService
@@ -120,12 +62,16 @@ export class FeedComponent implements OnInit {
       .result.then(
         (result) => {
           this.closeResult = `Closed with: ${result}`;
+          this.router
+            .navigateByUrl('/RefreshComponent', { skipLocationChange: true })
+            .then(() => {
+              this.router.navigate(['/feed']);
+            });
         },
         (reason) => {
           this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
         }
       );
-    console.log(this.closeResult);
   }
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {

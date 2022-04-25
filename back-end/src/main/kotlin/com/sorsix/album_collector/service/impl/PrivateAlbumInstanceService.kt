@@ -1,10 +1,11 @@
 package com.sorsix.album_collector.service.impl
 
 import com.sorsix.album_collector.api.PrivateAlbumStickers
+
 import com.sorsix.album_collector.domain.Album
 import com.sorsix.album_collector.domain.Collector
+
 import com.sorsix.album_collector.domain.PrivateAlbumInstance
-import com.sorsix.album_collector.domain.Sticker
 import com.sorsix.album_collector.repository.AlbumRepository
 import com.sorsix.album_collector.repository.CollectorRepository
 import com.sorsix.album_collector.repository.PrivateAlbumInstanceRepository
@@ -55,10 +56,12 @@ class PrivateAlbumInstanceService(
     }
 
     override fun getAllStickers(paId: Long): PrivateAlbumStickers {
+
         val privateAlbum: PrivateAlbumInstance = privateAlbumRepository.findByIdOrNull(paId)
             ?: throw EntityNotFoundException("Private album with given id does not exist")
         val album: Album = albumRepository.findByIdOrNull(privateAlbum.album.Id)
             ?: throw EntityNotFoundException("Album with given id is not found")
+
         return PrivateAlbumStickers(
             allStickers = album.stickers,
             collectedStickers = privateAlbum.collectedStickers,
@@ -67,6 +70,7 @@ class PrivateAlbumInstanceService(
     }
 
     override fun addNewCollectedSticker(paId: Long, stickerNumber: String) {
+
         val privateAlbum: PrivateAlbumInstance = privateAlbumRepository.findByIdOrNull(paId)
             ?: throw EntityNotFoundException("Private album with given id does not exist")
         val album = privateAlbum.album
@@ -74,20 +78,25 @@ class PrivateAlbumInstanceService(
             ?: throw EntityNotFoundException("Sticker with given number does not exist in given album")
         if (privateAlbum.collectedStickers.contains(sticker)) privateAlbum.duplicateStickers.add(sticker)
         else privateAlbum.collectedStickers.add(sticker)
+
         privateAlbumRepository.save(privateAlbum)
     }
 
     override fun removeCollectedSticker(paId: Long, stickerNumber: String) {
+
         val privateAlbum: PrivateAlbumInstance = privateAlbumRepository.findByIdOrNull(paId)
             ?: throw EntityNotFoundException("Private album with given id does not exist")
+
         privateAlbum.collectedStickers.removeIf { it.number == stickerNumber }
         privateAlbum.duplicateStickers.removeIf { it.number == stickerNumber }
         privateAlbumRepository.save(privateAlbum)
     }
 
     override fun removeDuplicateSticker(paId: Long, stickerNumber: String) {
+
         val privateAlbum: PrivateAlbumInstance = privateAlbumRepository.findByIdOrNull(paId)
             ?: throw EntityNotFoundException("Private album with given id does not exist")
+
         privateAlbum.duplicateStickers.removeIf { it.number == stickerNumber }
         privateAlbumRepository.save(privateAlbum)
     }
