@@ -9,8 +9,10 @@ import com.sorsix.album_collector.repository.CollectorRepository
 import com.sorsix.album_collector.repository.RoleRepository
 import org.springframework.stereotype.Service
 import com.sorsix.album_collector.service.CollectorService
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.multipart.MultipartFile
+import javax.persistence.EntityNotFoundException
 
 @Service
 class CollectorService(
@@ -29,19 +31,22 @@ class CollectorService(
         val roles: MutableSet<Role> = HashSet()
         roleRepository.save(Role(1, ERole.ROLE_USER))//delete row
         val userRole: Role = roleRepository.findByName(ERole.ROLE_USER)
+            ?: throw EntityNotFoundException("ROLE_USER not found in database")
         roles.add(userRole)
         collector.roles = roles
         return collectorRepository.save(collector)
     }
 
     override fun setProfilePicture(collectorId: Long, file: MultipartFile) {
-        val collector: Collector = collectorRepository.findById(collectorId).get()
+        val collector: Collector = collectorRepository.findByIdOrNull(collectorId)
+            ?: throw EntityNotFoundException("Collector with given id does not exist")
         collector.profilePicture = file.bytes
         collectorRepository.save(collector)
     }
 
     override fun getProfilePicture(collectorId: Long): ByteArray {
-        val collector = collectorRepository.findById(collectorId).orElseThrow()
+        val collector: Collector = collectorRepository.findByIdOrNull(collectorId)
+            ?: throw EntityNotFoundException("Collector with given id does not exist")
         return collector.profilePicture
     }
 
@@ -50,7 +55,9 @@ class CollectorService(
     }
 
     override fun getPrivateAlbums(collectorId: Long): List<PrivateAlbumInstance> {
-        return collectorRepository.findById(collectorId).get().albums
+        val collector: Collector = collectorRepository.findByIdOrNull(collectorId)
+            ?: throw EntityNotFoundException("Collector with given id does not exist")
+        return collector.albums
     }
 
 
