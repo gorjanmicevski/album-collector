@@ -23,7 +23,6 @@ export class AlbumsGridComponent implements OnInit {
   closeResult = '';
   $refresh = new Subject<void>();
   ngOnInit(): void {
-
     this.$refresh
       .pipe(
         tap(() => console.log('void')),
@@ -44,7 +43,6 @@ export class AlbumsGridComponent implements OnInit {
         },
       });
     this.$refresh.next();
-
   }
   calculateRows(list: String[]): number {
     if (list.length % 4 == 0) return list.length / 4;
@@ -73,7 +71,6 @@ export class AlbumsGridComponent implements OnInit {
           this.service
             .addPrivateAlbum(1, result)
             .subscribe(() => this.$refresh.next());
-
         },
         (reason) => {
           this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;

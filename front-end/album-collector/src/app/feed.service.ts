@@ -37,7 +37,15 @@ export class FeedService {
       params: queryParams,
     });
   }
-
+  getPostsByAlbum(page: number, pageSize: number, albumId: number) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append('page', page);
+    queryParams = queryParams.append('pageSize', pageSize);
+    queryParams = queryParams.append('albumId', albumId);
+    return this.http.get<[]>(`http://localhost:8080/api/posts`, {
+      params: queryParams,
+    });
+  }
   addPost(post: any) {
     return this.http.post(`http://localhost:8080/api/createPost`, post);
   }

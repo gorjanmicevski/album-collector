@@ -18,18 +18,38 @@ export class FeedComponent implements OnInit {
   closeResult = '';
   posts: any[] = [];
   page = -1;
-
+  selected = 'Filter Albums';
+  selectedAlbumId: number | undefined = undefined;
+  albumsList: any[] | undefined;
   ngOnInit(): void {
     this.getNewPage();
+    this.feedService.getPrivateAlbums().subscribe((data) => {
+      console.log((this.albumsList = data));
+      this.albumsList = data;
+    });
   }
   onScroll() {
     this.getNewPage();
   }
+  filterAlbums(albumId: number) {
+    console.log(albumId);
+    this.selectedAlbumId = albumId;
+    this.page = -1;
+    this.posts = [];
+    this.getNewPage();
+  }
   getNewPage() {
     this.page += 1;
-    this.feedService.getPosts(this.page, 4).subscribe((data) => {
-      this.posts = [...this.posts, ...data];
-    });
+    if (this.selectedAlbumId == undefined)
+      this.feedService.getPosts(this.page, 4).subscribe((data) => {
+        this.posts = [...this.posts, ...data];
+      });
+    else
+      this.feedService
+        .getPostsByAlbum(this.page, 4, this.selectedAlbumId)
+        .subscribe((data) => {
+          this.posts = [...this.posts, ...data];
+        });
   }
   getTime(dateTime: string) {
     var now = formatDate(new Date(), 'YYYY-MM-ddTHH:mm:ss', 'en');
@@ -62,6 +82,7 @@ export class FeedComponent implements OnInit {
       .result.then(
         (result) => {
           this.closeResult = `Closed with: ${result}`;
+
           this.router
             .navigateByUrl('/RefreshComponent', { skipLocationChange: true })
             .then(() => {
