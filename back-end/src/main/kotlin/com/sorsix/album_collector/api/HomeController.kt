@@ -47,7 +47,7 @@ class HomeController(
     }
 
     @PostMapping("/auth/login")
-    fun login(loginRequest: LoginRequest): ResponseEntity<Any> {
+    fun login(@RequestBody loginRequest: LoginRequest): ResponseEntity<Any> {
         val authentication: Authentication = authenticationManager.authenticate(
             UsernamePasswordAuthenticationToken(loginRequest.email, loginRequest.password)
         )
@@ -152,5 +152,12 @@ class HomeController(
         @RequestParam stickerNumber: String
     ) {
         privateAlbumInstanceService.addNewCollectedSticker(collectorId, albumId, stickerNumber)
+    }
+
+    @GetMapping("/privateAlbums/{collectorId}")
+    fun getPrivateAlbums(
+        @PathVariable collectorId: Long
+    ): ResponseEntity<List<PrivateAlbumInstance>> {
+        return ResponseEntity.ok(collectorService.getPrivateAlbums(collectorId))
     }
 }
