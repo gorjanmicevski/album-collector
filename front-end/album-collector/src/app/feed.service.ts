@@ -10,6 +10,7 @@ export class FeedService {
   getAlbums() {
     return this.http.get<any[]>('http://localhost:8080/api');
   }
+
   getPrivateAlbums() {
     return this.http.get<any[]>('http://localhost:8080/api/privateAlbums/1');
   }
