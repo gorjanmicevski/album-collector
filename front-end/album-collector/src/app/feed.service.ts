@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root',
@@ -9,6 +9,19 @@ export class FeedService {
 
   getAlbums() {
     return this.http.get<any[]>('http://localhost:8080/api');
+  }
+  getPrivateAlbums() {
+    return this.http.get<any[]>('http://localhost:8080/api/privateAlbums/1');
+  }
+  addPrivateAlbum(collectorId: number, albumId: number) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append('collectorId', collectorId);
+    queryParams = queryParams.append('albumId', albumId);
+    return this.http.post(
+      `http://localhost:8080/api/privateAlbum/create`,
+      {},
+      { params: queryParams }
+    );
   }
   getAlbumImage(id: number) {
     return this.http.get(`http://localhost:8080/api/album/${id}/image`, {

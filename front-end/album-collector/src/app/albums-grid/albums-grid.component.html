@@ -9,7 +9,7 @@
         style="height: 18em"
       >
         <a
-          routerLink="/albums/{{ albumsList![i * 4 + j].id }}"
+          routerLink="/albums/{{ albumsList![i * 4 + j].album.id }}"
           *ngIf="colRange(i * 4 + j)"
           ><img
             [src]="albumsList![i * 4 + j].image"
