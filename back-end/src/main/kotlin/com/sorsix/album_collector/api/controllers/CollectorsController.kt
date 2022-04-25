@@ -8,6 +8,7 @@ import com.sorsix.album_collector.security.jwt.JwtUtils
 import com.sorsix.album_collector.security.service.UserDetailsImpl
 import com.sorsix.album_collector.service.CollectorService
 import com.sorsix.album_collector.service.PostService
+import io.jsonwebtoken.Jwts
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -18,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import java.net.URI
+import kotlin.streams.toList
 
 @RestController
 @RequestMapping("/api/collectors")
@@ -30,7 +32,7 @@ class CollectorsController(
 ) {
     // Collectors
 
-    @PostMapping("/collectors/registerCollector")
+    @PostMapping("/registerCollector")
     fun registerCollector(@RequestBody collectorRegistration: CollectorRegistration): ResponseEntity<Any> {
         if (collectorService.emailTaken(collectorRegistration.email)) {
             return ResponseEntity.badRequest().body("Error: Email already used")
@@ -38,7 +40,7 @@ class CollectorsController(
         return ResponseEntity.ok(collectorService.createCollector(collectorRegistration))
     }
 
-    @PostMapping("/collectors/login")
+    @PostMapping("/login")
     fun login(@RequestBody loginRequest: LoginRequest): ResponseEntity<Any> {
         val authentication: Authentication = authenticationManager.authenticate(
             UsernamePasswordAuthenticationToken(loginRequest.email, loginRequest.password)
@@ -57,7 +59,8 @@ class CollectorsController(
                 email = userDetails.email,
                 roles = roles,
                 albums = userDetails.albums,
-                profilePicture = userDetails.profilePicture
+                profilePicture = userDetails.profilePicture,
+                expiration = Jwts.parser().setSigningKey("secret").parseClaimsJws(jwt).body.expiration
             )
         )
     }

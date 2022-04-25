@@ -8,16 +8,19 @@ import { formatDate } from '@angular/common';
 export class AuthService {
   constructor(private http: HttpClient) {}
   register(name: string, surname: string, email: string, password: string) {
-    return this.http.post('http://localhost:8080/api/auth/registerCollector', {
-      name,
-      surname,
-      email,
-      password,
-    });
+    return this.http.post(
+      'http://localhost:8080/api/collectors/registerCollector',
+      {
+        name,
+        surname,
+        email,
+        password,
+      }
+    );
   }
   login(email: string, password: string) {
     return this.http.post<{ token: string }>(
-      'http://localhost:8080/api/auth/login',
+      'http://localhost:8080/api/collectors/login',
       {
         email,
         password,
