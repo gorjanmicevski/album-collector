@@ -1,6 +1,6 @@
 package com.sorsix.album_collector.service.impl
 
-import com.sorsix.album_collector.api.CollectorRegistration
+import com.sorsix.album_collector.api.dtos.CollectorRegistration
 import com.sorsix.album_collector.domain.Collector
 import com.sorsix.album_collector.domain.ERole
 import com.sorsix.album_collector.domain.PrivateAlbumInstance

@@ -1,6 +1,6 @@
 package com.sorsix.album_collector.service.impl
 
-import com.sorsix.album_collector.api.PostCreator
+import com.sorsix.album_collector.api.dtos.PostCreator
 import com.sorsix.album_collector.domain.Album
 import com.sorsix.album_collector.domain.Collector
 import com.sorsix.album_collector.domain.Post

@@ -1,4 +1,4 @@
-package com.sorsix.album_collector.api
+package com.sorsix.album_collector.api.dtos
 
 data class PostCreator(
     val collectorId: Long,

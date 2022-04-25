@@ -11,7 +11,7 @@ data class Event(
     val title: String,
     val place: String,
     @OneToMany
-    @JsonIncludeProperties("name")
+    @JsonIncludeProperties("id", "name")
     val albums: List<Album>,
     @OneToMany
     val collectorsGoing: List<Collector>,
