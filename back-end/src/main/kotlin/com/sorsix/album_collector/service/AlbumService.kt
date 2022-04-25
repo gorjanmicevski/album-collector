@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile
 
 interface AlbumService {
     fun getAll(): List<Album>
-    fun importStickers(file: MultipartFile, name: String, image: String?): Album
+    fun importStickers(file: MultipartFile, name: String, image: MultipartFile): Album
     fun getStickersForAlbum(albumId: Long): List<Sticker>
+    fun getAlbumImage(albumId: Long):ByteArray
 }
