@@ -7,7 +7,7 @@ import javax.persistence.*
 data class Album(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val Id: Long = 0,
+    val id: Long = 0,
     val name: String,
     @JsonIgnore
     val imageUrl: ByteArray,
