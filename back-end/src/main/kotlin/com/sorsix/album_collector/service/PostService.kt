@@ -1,6 +1,6 @@
 package com.sorsix.album_collector.service
 
-import com.sorsix.album_collector.api.PostCreator
+import com.sorsix.album_collector.api.dtos.PostCreator
 import com.sorsix.album_collector.domain.Post
 import org.springframework.web.multipart.MultipartFile
 

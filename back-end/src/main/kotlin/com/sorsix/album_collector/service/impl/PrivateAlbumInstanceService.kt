@@ -1,6 +1,6 @@
 package com.sorsix.album_collector.service.impl
 
-import com.sorsix.album_collector.api.PrivateAlbumStickers
+import com.sorsix.album_collector.api.dtos.PrivateAlbumStickers
 import com.sorsix.album_collector.domain.Album
 import com.sorsix.album_collector.domain.Collector
 import com.sorsix.album_collector.domain.PrivateAlbumInstance
