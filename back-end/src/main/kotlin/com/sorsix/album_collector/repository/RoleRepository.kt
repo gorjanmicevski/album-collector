@@ -5,5 +5,5 @@ import com.sorsix.album_collector.domain.Role
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface RoleRepository : JpaRepository<Role, Long> {
-    fun findByName(name: ERole): Role
+    fun findByName(name: ERole): Role?
 }

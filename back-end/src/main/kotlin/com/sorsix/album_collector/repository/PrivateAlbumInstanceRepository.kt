@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface PrivateAlbumInstanceRepository : JpaRepository<PrivateAlbumInstance, Long> {
-    fun findByCollectorAndAlbum(collector: Collector, album: Album): PrivateAlbumInstance
+    fun findByCollectorAndAlbum(collector: Collector, album: Album): PrivateAlbumInstance?
 }

@@ -1,15 +1,19 @@
 package com.sorsix.album_collector.service.impl
 
 import com.sorsix.album_collector.api.PostCreator
+import com.sorsix.album_collector.domain.Album
+import com.sorsix.album_collector.domain.Collector
 import com.sorsix.album_collector.domain.Post
 import com.sorsix.album_collector.repository.AlbumRepository
 import com.sorsix.album_collector.repository.CollectorRepository
 import com.sorsix.album_collector.repository.PostRepository
 import com.sorsix.album_collector.service.PostService
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import java.time.LocalDateTime
+import javax.persistence.EntityNotFoundException
 
 @Service
 class PostService(
@@ -22,8 +26,10 @@ class PostService(
     }
 
     override fun create(post: PostCreator, imageMissing: MultipartFile?, imageDuplicates: MultipartFile?): Post {
-        val collector = collectorRepository.findById(post.collectorId).get()
-        val album = albumRepository.findById(post.albumId).get()
+        val collector: Collector = collectorRepository.findByIdOrNull(post.collectorId)
+            ?: throw EntityNotFoundException("Collector with given id does not exist")
+        val album: Album = albumRepository.findByIdOrNull(post.albumId)
+            ?: throw EntityNotFoundException("Album with given id does not exist")
         return postRepository.save(
             Post(
                 collector = collector,
@@ -42,14 +48,14 @@ class PostService(
     }
 
     override fun update(
-        post: PostCreator,
-        imageMissing: MultipartFile?,
-        imageDuplicates: MultipartFile?,
-        postId: Long
+        post: PostCreator, imageMissing: MultipartFile?, imageDuplicates: MultipartFile?, postId: Long
     ): Post {
-        val postToUpdate = postRepository.findById(postId).get()
-        val collector = collectorRepository.findById(post.collectorId).get()
-        val album = albumRepository.findById(post.albumId).get()
+        val postToUpdate: Post =
+            postRepository.findByIdOrNull(postId) ?: throw EntityNotFoundException("Post with given id does not exist")
+        val collector: Collector = collectorRepository.findByIdOrNull(post.collectorId)
+            ?: throw EntityNotFoundException("Collector with given id does not exist")
+        val album: Album = albumRepository.findByIdOrNull(post.albumId)
+            ?: throw EntityNotFoundException("Album with given id does not exist")
         postToUpdate.description = post.description
         postToUpdate.phone = post.phone
         postToUpdate.location = post.location
