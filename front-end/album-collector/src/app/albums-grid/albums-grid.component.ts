@@ -3,6 +3,9 @@ import { FeedService } from '../feed.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { AlbumsPopUpComponent } from '../albums-pop-up/albums-pop-up.component';
+
+import { mergeMap, Subject, switchMap, tap } from 'rxjs';
+
 @Component({
   selector: 'app-albums-grid',
   templateUrl: './albums-grid.component.html',
@@ -18,18 +21,30 @@ export class AlbumsGridComponent implements OnInit {
   rowRange: number[] = [];
   cols = new Array(4);
   closeResult = '';
+  $refresh = new Subject<void>();
   ngOnInit(): void {
-    this.service.getAlbums().subscribe((data) => {
-      console.log('albums', data);
-      data.forEach((element) => {
-        this.service.getAlbumImage(element.id).subscribe((blob) => {
-          let objectURL = URL.createObjectURL(blob);
-          element.image = this.sanitizer.bypassSecurityTrustUrl(objectURL);
-        });
+
+    this.$refresh
+      .pipe(
+        tap(() => console.log('void')),
+        mergeMap(() => this.service.getPrivateAlbums())
+      )
+      .subscribe({
+        next: (data) => {
+          console.log('priv albums', data);
+          data.forEach((element) => {
+            this.service.getAlbumImage(element.album.id).subscribe((blob) => {
+              let objectURL = URL.createObjectURL(blob);
+              element.image = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+            });
+          });
+
+          this.albumsList = data;
+          this.rowRange = new Array(this.calculateRows(data));
+        },
       });
-      this.albumsList = data;
-      this.rowRange = new Array(this.calculateRows(data));
-    });
+    this.$refresh.next();
+
   }
   calculateRows(list: String[]): number {
     if (list.length % 4 == 0) return list.length / 4;
@@ -54,6 +69,11 @@ export class AlbumsGridComponent implements OnInit {
       .result.then(
         (result) => {
           this.closeResult = `Closed with: ${result}`;
+
+          this.service
+            .addPrivateAlbum(1, result)
+            .subscribe(() => this.$refresh.next());
+
         },
         (reason) => {
           this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
