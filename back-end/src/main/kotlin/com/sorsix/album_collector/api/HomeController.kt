@@ -17,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import java.net.URI
+import kotlin.streams.toList
 
 @RestController
 @RequestMapping("/api")
@@ -47,7 +48,7 @@ class HomeController(
     }
 
     @PostMapping("/auth/login")
-    fun login(loginRequest: LoginRequest): ResponseEntity<Any> {
+    fun login(@RequestBody loginRequest: LoginRequest): ResponseEntity<Any> {
         val authentication: Authentication = authenticationManager.authenticate(
             UsernamePasswordAuthenticationToken(loginRequest.email, loginRequest.password)
         )
