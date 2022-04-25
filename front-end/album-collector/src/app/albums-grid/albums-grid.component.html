@@ -1,4 +1,6 @@
 <div class="container">
+  <button class="btn btn-info text-white" (click)="open()">Add Album</button>
+
   <div *ngFor="let row of rowRange; let i = index">
     <div class="row my-5">
       <div
@@ -6,10 +8,11 @@
         class="col-2 mx-auto"
         style="height: 18em"
       >
-        <a routerLink="{{ 1 }}"
+        <a
+          routerLink="/albums/{{ albumsList![i * 4 + j].id }}"
+          *ngIf="colRange(i * 4 + j)"
           ><img
-            *ngIf="colRange(i * 4 + j)"
-            [src]="albumsList[i * 4 + j]"
+            [src]="albumsList![i * 4 + j].image"
             style="width: 100%; height: 100%"
         /></a>
       </div>
@@ -17,12 +20,8 @@
   </div>
 </div>
 
-<button class="btn btn-lg btn-outline-primary" (click)="open()">
-  Launch demo modal
-</button>
-<!-- 
 <hr />
-<ng-template #content let-modal>
+<!-- <ng-template #content let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
     <button
@@ -34,22 +33,21 @@
   </div>
   <div class="modal-body">
     <form>
-      <div class="mb-3">
-        <label for="dateOfBirth">Date of birth</label>
-        <div class="input-group">
-          <input
-            id="dateOfBirth"
-            class="form-control"
-            placeholder="yyyy-mm-dd"
-            name="dp"
-            ngbDatepicker
-            #dp="ngbDatepicker"
-          />
-          <button
-            class="btn btn-outline-secondary calendar"
-            (click)="dp.toggle()"
-            type="button"
-          ></button>
+      <div *ngFor="let row of rowRange; let i = index">
+        <div class="row my-5">
+          <div
+            *ngFor="let col of cols; let j = index"
+            class="col-2 mx-auto"
+            style="height: 18em"
+          >
+            <a
+              routerLink="/albums/{{ albumsList![i * 4 + j].id }}"
+              *ngIf="colRange(i * 4 + j)"
+              ><img
+                [src]="albumsList![i * 4 + j].image"
+                style="width: 100%; height: 100%"
+            /></a>
+          </div>
         </div>
       </div>
     </form>

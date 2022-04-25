@@ -7,6 +7,14 @@ import { AuthService } from './auth.service';
 export class FeedService {
   constructor(private http: HttpClient) {}
 
+  getAlbums() {
+    return this.http.get<any[]>('http://localhost:8080/api');
+  }
+  getAlbumImage(id: number) {
+    return this.http.get(`http://localhost:8080/api/album/${id}/image`, {
+      responseType: 'blob',
+    });
+  }
   getPosts() {
     return this.http.get(`http://localhost:8080/api/feed`);
   }
@@ -16,9 +24,11 @@ export class FeedService {
       console.log('post');
     });
   }
-  getStickers() {
-    return this.http.get<any[]>('http://localhost:8080/api/albums/1');
+  getStickers(id: number) {
+    return this.http.get<any[]>(`http://localhost:8080/api/albums/${id}`);
   }
+  addCollected() {}
+  addDuplicate() {}
   uploadFile(file: File) {
     const fd = new FormData();
     fd.append('file', file);

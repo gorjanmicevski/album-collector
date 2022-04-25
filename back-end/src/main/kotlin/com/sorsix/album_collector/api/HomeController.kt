@@ -49,7 +49,7 @@ class HomeController(
 
     @PostMapping("/auth/login")
     fun login(@RequestBody loginRequest: LoginRequest): ResponseEntity<Any> {
-        val authentication: Authentication = authenticationManager.authenticate(
+            val authentication: Authentication = authenticationManager.authenticate(
             UsernamePasswordAuthenticationToken(loginRequest.email, loginRequest.password)
         )
         SecurityContextHolder.getContext().authentication = authentication
@@ -124,10 +124,18 @@ class HomeController(
     fun uploadAlbum(
         @RequestParam file: MultipartFile,
         @RequestParam name: String,
-        @RequestParam(required = false) image: String
+        @RequestParam image: MultipartFile
     ): ResponseEntity<Album> {
         val album = albumService.importStickers(file, name, image)
         return ResponseEntity.ok(album)
+    }
+    @GetMapping("/album/{id}/image")
+    fun getAlbumImage(@PathVariable id: Long):ResponseEntity<Any>{
+        val image: ByteArray = albumService.getAlbumImage(id)
+        return ResponseEntity.ok()
+            .contentType(MediaType.parseMediaType(MediaType.IMAGE_JPEG_VALUE))
+            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"${System.currentTimeMillis()}\"")
+            .body(image)
     }
 
     @PostMapping("/privateAlbum/create")

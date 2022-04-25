@@ -1,15 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { FeedService } from '../feed.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { AlbumsPopUpComponent } from '../albums-pop-up/albums-pop-up.component';
+import {
+  NgbModal,
+  ModalDismissReasons,
+  NgbActiveModal,
+} from '@ng-bootstrap/ng-bootstrap';
 @Component({
-  selector: 'app-albums-grid',
-  templateUrl: './albums-grid.component.html',
-  styleUrls: ['./albums-grid.component.css'],
+  selector: 'app-albums-pop-up',
+  templateUrl: './albums-pop-up.component.html',
+  styleUrls: ['./albums-pop-up.component.css'],
 })
-export class AlbumsGridComponent implements OnInit {
+export class AlbumsPopUpComponent implements OnInit {
   constructor(
+    public activeModal: NgbActiveModal,
     private service: FeedService,
     private sanitizer: DomSanitizer,
     private modalService: NgbModal
@@ -42,32 +46,5 @@ export class AlbumsGridComponent implements OnInit {
   }
   createRange(number: number) {
     return new Array(number);
-  }
-
-  open() {
-    this.modalService
-      .open(AlbumsPopUpComponent, {
-        size: 'xl',
-        centered: true,
-        scrollable: true,
-      })
-      .result.then(
-        (result) => {
-          this.closeResult = `Closed with: ${result}`;
-        },
-        (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        }
-      );
-    console.log(this.closeResult);
-  }
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
   }
 }
