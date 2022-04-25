@@ -34,7 +34,7 @@ class HomeController(
     @GetMapping
     fun getAlbums() = albumService.getAll()
 
-    @GetMapping("/albums/{albumId}")
+    @GetMapping("/albums/{albumId}/stickers")
     fun getStickers(@PathVariable albumId: Long): List<Sticker> {
         return albumService.getStickersForAlbum(albumId)
     }
@@ -156,11 +156,26 @@ class HomeController(
 
     @PutMapping("/privateAlbum/collectSticker")
     fun collectSticker(
-        @RequestParam collectorId: Long,
-        @RequestParam albumId: Long,
+        @RequestParam paId: Long,
         @RequestParam stickerNumber: String
     ) {
-        privateAlbumInstanceService.addNewCollectedSticker(collectorId, albumId, stickerNumber)
+        privateAlbumInstanceService.addNewCollectedSticker(paId, stickerNumber)
+    }
+
+    @PutMapping("/privateAlbum/removeSticker")
+    fun removeSticker(
+        @RequestParam paId: Long,
+        @RequestParam stickerNumber: String
+    ) {
+        privateAlbumInstanceService.removeCollectedSticker(paId, stickerNumber)
+    }
+
+    @PutMapping("/privateAlbum/removeDuplicate")
+    fun removeDuplicateSticker(
+        @RequestParam paId: Long,
+        @RequestParam stickerNumber: String
+    ) {
+        privateAlbumInstanceService.removeDuplicateSticker(paId, stickerNumber)
     }
 
     @GetMapping("/privateAlbums/{collectorId}")
@@ -168,5 +183,12 @@ class HomeController(
         @PathVariable collectorId: Long
     ): ResponseEntity<List<PrivateAlbumInstance>> {
         return ResponseEntity.ok(collectorService.getPrivateAlbums(collectorId))
+    }
+
+    @GetMapping("/privateAlbum/{paId}/stickers")
+    fun getPrivateAlbumStickers(
+        @PathVariable paId: Long
+    ): ResponseEntity<PrivateAlbumStickers> {
+        return ResponseEntity.ok(privateAlbumInstanceService.getAllStickers(paId))
     }
 }
