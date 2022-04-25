@@ -29,17 +29,23 @@ export class FeedService {
       responseType: 'blob',
     });
   }
-  getPosts() {
-    return this.http.get(`http://localhost:8080/api/feed`);
+  getPosts(page: number, pageSize: number) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append('page', page);
+    queryParams = queryParams.append('pageSize', pageSize);
+    return this.http.get<[]>(`http://localhost:8080/api/posts`, {
+      params: queryParams,
+    });
   }
 
   addPost(post: any) {
-    this.http.post(`http://localhost:8080/api/feed`, post).subscribe(() => {
-      console.log('post');
-    });
+    return this.http.post(`http://localhost:8080/api/createPost`, post);
   }
   getStickers(id: number) {
-    return this.http.get<any[]>(`http://localhost:8080/api/albums/${id}`);
+    console.log(id);
+    return this.http.get<any[]>(
+      `http://localhost:8080/api/albums/${id}/stickers`
+    );
   }
   addCollected() {}
   addDuplicate() {}

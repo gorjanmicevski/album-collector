@@ -35,10 +35,12 @@
                       src="https://i.imgur.com/aoKusnD.jpg"
                       width="45"
                     />
-                    <div class="d-flex flex-column flex-wrap ml-2">
-                      <span class="font-weight-bold">{{ post.username }}</span
-                      ><span class="text-black-50 time">{{
-                        post.dateTime
+                    <div class="d-flex flex-column flex-wrap ms-2">
+                      <span class="font-weight-bold"
+                        >{{ post.collector.name }}
+                        {{ post.collector.surname }}</span
+                      ><span class="text-black-50 time small">{{
+                        getTime(post.dateTimeCreated)
                       }}</span>
                     </div>
                   </div>
@@ -48,10 +50,11 @@
                 </div>
               </div>
               <div class="p-2 px-3">
-                <p>Missing cards: {{ post.missingCards }}</p>
-                <p>Duplicate cards: {{ post.duplicateCards }}</p>
+                <p>Description: {{ post.description }}</p>
+                <p>Missing cards: {{ post.missingStickers }}</p>
+                <p>Duplicate cards: {{ post.duplicateStickers }}</p>
                 <p>Phone : {{ post.phone }}</p>
-                <p>Place : {{ post.place }}</p>
+                <p>Place : {{ post.location }}</p>
               </div>
             </div>
           </div>

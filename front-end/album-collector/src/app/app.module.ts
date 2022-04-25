@@ -15,6 +15,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { AlbumsPopUpComponent } from './albums-pop-up/albums-pop-up.component';
+import { RegisterComponent } from './register/register.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,6 +27,7 @@ import { AlbumsPopUpComponent } from './albums-pop-up/albums-pop-up.component';
     PostPopUpFormComponent,
     LoginComponent,
     AlbumsPopUpComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,

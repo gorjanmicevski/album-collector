@@ -19,20 +19,22 @@ export class PostPopUpFormComponent implements OnInit {
     collectorId: number;
     description: string;
     phone: string;
-    place?: string;
-    missingCards: string;
-    duplicateCards: string;
+    location?: string;
+    missingStickers: string;
+    duplicateStickers: string;
     missingCardsImg?: any;
     duplicateCardsImg?: any;
+    albumId: number;
   } = {
     collectorId: 1,
     description: '',
     phone: '',
-    place: '',
-    missingCards: '',
-    duplicateCards: '',
+    location: '',
+    missingStickers: '',
+    duplicateStickers: '',
     missingCardsImg: undefined,
     duplicateCardsImg: undefined,
+    albumId: 1,
   };
   urlMissing = '';
   urlDuplicates = '';
@@ -60,7 +62,9 @@ export class PostPopUpFormComponent implements OnInit {
   }
   submit() {
     console.log(this.post.description);
-    this.activeModal.close('Close click');
+    this.feedService.addPost(this.post).subscribe(() => {
+      this.activeModal.close('Close click');
+    });
   }
   importStickers(type: string) {
     console.log('asdsad');
@@ -68,11 +72,11 @@ export class PostPopUpFormComponent implements OnInit {
     switch (type) {
       case 'm':
         this.urlMissing = '';
-        this.post.missingCards = '1,2,3,4,5,6';
+        this.post.missingStickers = '1,2,3,4,5,6';
         break;
       case 'd':
         this.urlDuplicates = '';
-        this.post.duplicateCards = '1,2,3,4,5,6';
+        this.post.duplicateStickers = '1,2,3,4,5,6';
         break;
     }
   }

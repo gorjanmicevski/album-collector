@@ -18,7 +18,7 @@ class PostService(
     val albumRepository: AlbumRepository
 ) : PostService {
     override fun getAllPaginated(page: Int, pageSize: Int): List<Post> {
-        return postRepository.findAll(PageRequest.of(page - 1, pageSize)).content
+        return postRepository.findAll(PageRequest.of(page , pageSize)).content
     }
 
     override fun create(post: PostCreator, imageMissing: MultipartFile?, imageDuplicates: MultipartFile?): Post {
