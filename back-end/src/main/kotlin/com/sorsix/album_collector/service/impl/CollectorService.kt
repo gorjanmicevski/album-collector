@@ -7,10 +7,10 @@ import com.sorsix.album_collector.domain.PrivateAlbumInstance
 import com.sorsix.album_collector.domain.Role
 import com.sorsix.album_collector.repository.CollectorRepository
 import com.sorsix.album_collector.repository.RoleRepository
-import org.springframework.stereotype.Service
 import com.sorsix.album_collector.service.CollectorService
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import javax.persistence.EntityNotFoundException
 

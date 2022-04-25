@@ -1,20 +1,16 @@
 package com.sorsix.album_collector.service.impl
 
 import com.sorsix.album_collector.api.PrivateAlbumStickers
-
 import com.sorsix.album_collector.domain.Album
 import com.sorsix.album_collector.domain.Collector
-
 import com.sorsix.album_collector.domain.PrivateAlbumInstance
 import com.sorsix.album_collector.repository.AlbumRepository
 import com.sorsix.album_collector.repository.CollectorRepository
 import com.sorsix.album_collector.repository.PrivateAlbumInstanceRepository
 import com.sorsix.album_collector.repository.StickerRepository
 import com.sorsix.album_collector.service.PrivateAlbumInstanceService
-import org.hibernate.exception.ConstraintViolationException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
-import java.sql.SQLException
 import javax.persistence.EntityNotFoundException
 
 @Service
@@ -30,8 +26,7 @@ class PrivateAlbumInstanceService(
         val album: Album = albumRepository.findByIdOrNull(albumId)
             ?: throw EntityNotFoundException("Album with given id does not exist")
         if (privateAlbumRepository.findByCollectorAndAlbum(
-                collector,
-                album
+                collector, album
             ) != null
         ) throw IllegalArgumentException("Entity already exists")
         val privateAlbum = PrivateAlbumInstance(

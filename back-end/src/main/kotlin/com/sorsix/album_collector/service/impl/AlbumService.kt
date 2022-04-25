@@ -42,6 +42,6 @@ class AlbumService(
     override fun getAlbumImage(albumId: Long): ByteArray {
         val album: Album =
             albumRepository.findByIdOrNull(albumId) ?: throw EntityNotFoundException("Album with given id is not found")
-        return albumRepository.findById(albumId).get().imageUrl
+        return album.imageUrl
     }
 }
