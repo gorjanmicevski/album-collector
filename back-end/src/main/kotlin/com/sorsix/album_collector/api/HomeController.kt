@@ -1,6 +1,9 @@
 package com.sorsix.album_collector.api
 
-import com.sorsix.album_collector.domain.*
+import com.sorsix.album_collector.domain.Album
+import com.sorsix.album_collector.domain.Post
+import com.sorsix.album_collector.domain.PrivateAlbumInstance
+import com.sorsix.album_collector.domain.Sticker
 import com.sorsix.album_collector.security.jwt.JwtUtils
 import com.sorsix.album_collector.security.service.UserDetailsImpl
 import com.sorsix.album_collector.service.AlbumService
@@ -17,7 +20,6 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import java.net.URI
-import kotlin.streams.toList
 
 @RestController
 @RequestMapping("/api")
@@ -49,7 +51,7 @@ class HomeController(
 
     @PostMapping("/auth/login")
     fun login(@RequestBody loginRequest: LoginRequest): ResponseEntity<Any> {
-            val authentication: Authentication = authenticationManager.authenticate(
+        val authentication: Authentication = authenticationManager.authenticate(
             UsernamePasswordAuthenticationToken(loginRequest.email, loginRequest.password)
         )
         SecurityContextHolder.getContext().authentication = authentication
@@ -91,9 +93,10 @@ class HomeController(
     @GetMapping("/posts")
     fun getPostsPaginated(
         @RequestParam page: Int,
-        @RequestParam pageSize: Int
+        @RequestParam pageSize: Int,
+        @RequestParam albumId: Long?
     ): ResponseEntity<List<Post>> {
-        return ResponseEntity.ok(postService.getAllPaginated(page, pageSize))
+        return ResponseEntity.ok(postService.getAllPaginated(page, pageSize, albumId))
     }
 
     @PostMapping("/createPost")
@@ -129,8 +132,9 @@ class HomeController(
         val album = albumService.importStickers(file, name, image)
         return ResponseEntity.ok(album)
     }
+
     @GetMapping("/album/{id}/image")
-    fun getAlbumImage(@PathVariable id: Long):ResponseEntity<Any>{
+    fun getAlbumImage(@PathVariable id: Long): ResponseEntity<Any> {
         val image: ByteArray = albumService.getAlbumImage(id)
         return ResponseEntity.ok()
             .contentType(MediaType.parseMediaType(MediaType.IMAGE_JPEG_VALUE))

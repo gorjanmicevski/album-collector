@@ -6,19 +6,13 @@ import javax.persistence.*
 
 @Entity
 data class Post(
-    @Id
-    @GeneratedValue
-    val id: Long = 0,
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIncludeProperties("name", "surname")
-    val collector: Collector,
+    @Id @GeneratedValue val id: Long = 0,
+    @ManyToOne(fetch = FetchType.LAZY) @JsonIncludeProperties("name", "surname") val collector: Collector,
     var collectorName: String,
     var description: String,
     var phone: String,
     var location: String,
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIncludeProperties("name")
-    var album: Album,
+    @ManyToOne(fetch = FetchType.LAZY) @JsonIncludeProperties("id", "name") var album: Album,
     var duplicateStickers: String?,
     var missingStickers: String?,
     var imageDuplicatesStickers: ByteArray?,

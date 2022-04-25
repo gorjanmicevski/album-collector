@@ -54,7 +54,7 @@ class PrivateAlbumInstanceService(
 
         val privateAlbum: PrivateAlbumInstance = privateAlbumRepository.findByIdOrNull(paId)
             ?: throw EntityNotFoundException("Private album with given id does not exist")
-        val album: Album = albumRepository.findByIdOrNull(privateAlbum.album.Id)
+        val album: Album = albumRepository.findByIdOrNull(privateAlbum.album.id)
             ?: throw EntityNotFoundException("Album with given id is not found")
 
         return PrivateAlbumStickers(
