@@ -8,11 +8,13 @@ export class FeedService {
   constructor(private http: HttpClient) {}
 
   getAlbums() {
-    return this.http.get<any[]>('http://localhost:8080/api');
+    return this.http.get<any[]>('http://localhost:8080/api/albums');
   }
 
   getPrivateAlbums() {
-    return this.http.get<any[]>('http://localhost:8080/api/privateAlbums/1');
+    return this.http.get<any[]>(
+      'http://localhost:8080/api/collectors/1/privateAlbums'
+    );
   }
   addPrivateAlbum(collectorId: number, albumId: number) {
     let queryParams = new HttpParams();
@@ -47,7 +49,7 @@ export class FeedService {
     });
   }
   addPost(post: any) {
-    return this.http.post(`http://localhost:8080/api/createPost`, post);
+    return this.http.post(`http://localhost:8080/api/posts/create`, post);
   }
   getStickers(id: number) {
     console.log(id);
@@ -67,14 +69,21 @@ export class FeedService {
     };
     console.log(httpOptions);
     this.http
-      .post(`http://localhost:8080/api/setProfilePicture/1`, fd, httpOptions)
+      .post(
+        `http://localhost:8080/api/collectors/1/setProfilePicture`,
+        fd,
+        httpOptions
+      )
       .subscribe((res) => {
         console.log(res);
       });
   }
   getPP() {
-    return this.http.get(`http://localhost:8080/api/getProfilePicture/1`, {
-      responseType: 'blob',
-    });
+    return this.http.get(
+      `http://localhost:8080/api/collectors/1/getProfilePicture`,
+      {
+        responseType: 'blob',
+      }
+    );
   }
 }

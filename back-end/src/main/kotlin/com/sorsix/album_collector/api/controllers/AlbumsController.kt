@@ -18,7 +18,7 @@ class AlbumsController(
 ) {
     //Albums
 
-    @GetMapping("/")
+    @GetMapping()
     fun getAlbums() = albumService.getAll()
 
     @GetMapping("/{albumId}/stickers")
