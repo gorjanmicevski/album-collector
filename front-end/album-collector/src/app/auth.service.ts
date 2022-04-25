@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import * as moment from 'moment';
+import { formatDate } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -24,24 +24,28 @@ export class AuthService {
       }
     );
   }
-  setSession(authResult: { token: string }) {
-    // const expiresAt= moment().add()
+  setSession(authResult: any) {
+    localStorage.setItem('expires_at', authResult.expiration);
     localStorage.setItem('id_token', authResult.token);
   }
   logout() {
+    localStorage.removeItem('expires_at');
     localStorage.removeItem('id_token');
   }
-  // public isLoggedIn() {
-  //     return moment().isBefore(this.getExpiration());
-  // }
+  public isLoggedIn() {
+    var expiresat = localStorage.getItem('expires_at');
+    if (expiresat != null) {
+      var now = formatDate(new Date(), 'YYYY-MM-ddTHH:mm:ss', 'en');
+      var then = formatDate(expiresat, 'YYYY-MM-ddTHH:mm:ss', 'en');
+      var dateNow = new Date(now);
+      var dateExpires = new Date(then);
+      console.log('is logged in', dateNow.getTime() < dateExpires.getTime());
+      return dateNow.getTime() < dateExpires.getTime();
+    }
+    return false;
+  }
 
-  // isLoggedOut() {
-  //     return !this.isLoggedIn();
-  // }
-
-  // getExpiration() {
-  //     const expiration = localStorage.getItem("expires_at");
-  //     const expiresAt = JSON.parse(expiration);
-  //     return moment(expiresAt);
-  // }
+  isLoggedOut() {
+    return !this.isLoggedIn();
+  }
 }

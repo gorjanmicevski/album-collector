@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
       .subscribe((authResult) => {
         console.log('loged in', authResult);
         this.authService.setSession(authResult);
-        this.router.navigateByUrl('/');
+        this.router.navigateByUrl('/feed');
       });
   }
 }

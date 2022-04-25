@@ -10,6 +10,7 @@ import com.sorsix.album_collector.service.AlbumService
 import com.sorsix.album_collector.service.CollectorService
 import com.sorsix.album_collector.service.PostService
 import com.sorsix.album_collector.service.impl.PrivateAlbumInstanceService
+import io.jsonwebtoken.Jwts
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -20,6 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import java.net.URI
+import kotlin.streams.toList
 
 @RestController
 @RequestMapping("/api")
@@ -61,6 +63,7 @@ class HomeController(
         val roles: List<String> = userDetails.authorities.stream()
             .map { it.authority }
             .toList()
+
         return ResponseEntity.ok(
             JwtResponse(
                 token = jwt,
@@ -70,7 +73,8 @@ class HomeController(
                 email = userDetails.email,
                 roles = roles,
                 albums = userDetails.albums,
-                profilePicture = userDetails.profilePicture
+                profilePicture = userDetails.profilePicture,
+                expiration = Jwts.parser().setSigningKey("secret").parseClaimsJws(jwt).body.expiration
             )
         )
     }

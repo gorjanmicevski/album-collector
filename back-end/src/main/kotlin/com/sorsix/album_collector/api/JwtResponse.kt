@@ -1,6 +1,7 @@
 package com.sorsix.album_collector.api
 
 import com.sorsix.album_collector.domain.PrivateAlbumInstance
+import java.util.*
 
 data class JwtResponse(
     val token: String,
@@ -11,7 +12,8 @@ data class JwtResponse(
     val email: String,
     val roles: List<String>,
     val albums: List<PrivateAlbumInstance>,
-    val profilePicture: ByteArray
+    val profilePicture: ByteArray,
+    val expiration:Date
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

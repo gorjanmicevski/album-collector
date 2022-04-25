@@ -20,8 +20,9 @@ class JwtUtils {
     private val jwtExpirationMs: Int = 86400000
     fun generateJwtToken(authentication: Authentication): String {
         val userPrincipal: UserDetailsImpl = authentication.principal as UserDetailsImpl
+        val expirationDate=Date(Date().time + jwtExpirationMs)
         return Jwts.builder().setSubject((userPrincipal.username)).setIssuedAt(Date())
-            .setExpiration(Date(Date().time + jwtExpirationMs)).signWith(SignatureAlgorithm.HS512, jwtSecret).compact()
+            .setExpiration(expirationDate).signWith(SignatureAlgorithm.HS512, jwtSecret).compact()
     }
 
     fun getUserNameFromJwtToken(token: String): String {
