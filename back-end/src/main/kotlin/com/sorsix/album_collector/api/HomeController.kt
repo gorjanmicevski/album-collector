@@ -154,4 +154,11 @@ class HomeController(
     ) {
         privateAlbumInstanceService.addNewCollectedSticker(collectorId, albumId, stickerNumber)
     }
+
+    @GetMapping("/privateAlbums/{collectorId}")
+    fun getPrivateAlbums(
+        @PathVariable collectorId: Long
+    ): ResponseEntity<List<PrivateAlbumInstance>> {
+        return ResponseEntity.ok(collectorService.getPrivateAlbums(collectorId))
+    }
 }
