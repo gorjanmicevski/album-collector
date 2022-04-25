@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, of, tap } from 'rxjs';
+import { map, mergeMap, Observable, of, tap } from 'rxjs';
 import { FeedService } from '../feed.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-stickers-grid',
@@ -8,22 +9,30 @@ import { FeedService } from '../feed.service';
   styleUrls: ['./stickers-grid.component.css'],
 })
 export class StickersGridComponent implements OnInit {
-  constructor(private feedService: FeedService) {}
+  constructor(
+    private feedService: FeedService,
+    private route: ActivatedRoute
+  ) {}
   rowRange = new Array(0);
   colRange = new Array(20);
   stickers: any[] | undefined;
   allStickers: any[] | undefined;
   test = 'All';
   ngOnInit(): void {
-    this.feedService.getStickers().subscribe((data) => {
-      this.allStickers = data;
-      this.allStickers = this.allStickers.map((sticker) => {
-        return { ...sticker, stickerClass: 'missing' };
+    this.route.paramMap
+      .pipe(
+        map((params) => params.get('id')),
+        mergeMap((id) => this.feedService.getStickers(Number.parseInt(id!)))
+      )
+      .subscribe((data) => {
+        this.allStickers = data;
+        this.allStickers = this.allStickers.map((sticker) => {
+          return { ...sticker, stickerClass: 'missing' };
+        });
+        this.stickers = [...this.allStickers];
+        console.log(this.stickers);
+        this.calculateRowRange();
       });
-      this.stickers = [...this.allStickers];
-      console.log(this.stickers);
-      this.calculateRowRange();
-    });
   }
   calculateRowRange() {
     this.rowRange = new Array(Math.ceil(this.stickers?.length! / 20));

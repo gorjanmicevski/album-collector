@@ -1,0 +1,39 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Add Album</h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  ></button>
+</div>
+<div class="modal-body">
+  <form>
+    <div *ngFor="let row of rowRange; let i = index">
+      <div class="row my-5">
+        <div
+          *ngFor="let col of cols; let j = index"
+          class="col-2 mx-auto"
+          style="height: 15em"
+        >
+          <a
+            (click)="activeModal.close(albumsList![i * 4 + j].id)"
+            *ngIf="colRange(i * 4 + j)"
+            ><img
+              [src]="albumsList![i * 4 + j].image"
+              style="width: 100%; height: 100%"
+          /></a>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-outline-dark"
+    (click)="activeModal.close('Save click')"
+  >
+    Save
+  </button>
+</div>

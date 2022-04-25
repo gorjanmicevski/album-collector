@@ -50,8 +50,8 @@ class WebSecurityConfig(
         http?.cors()?.and()?.csrf()?.disable()?.exceptionHandling()?.authenticationEntryPoint(unauthorizedHandler)
             ?.and()
             ?.sessionManagement()?.sessionCreationPolicy(SessionCreationPolicy.STATELESS)?.and()?.authorizeRequests()
-//            ?.anyRequest()?.permitAll()//delete row
-            ?.antMatchers("/api/auth/**")?.permitAll()?.anyRequest()?.authenticated()
-        http?.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter::class.java)
+            ?.anyRequest()?.permitAll()//delete row
+//            ?.antMatchers("/api/auth/**")?.permitAll()?.anyRequest()?.authenticated()
+//        http?.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter::class.java)
     }
 }

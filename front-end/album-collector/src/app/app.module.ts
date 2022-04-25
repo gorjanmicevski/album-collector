@@ -14,6 +14,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
+import { AlbumsPopUpComponent } from './albums-pop-up/albums-pop-up.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,6 +25,7 @@ import { LoginComponent } from './login/login.component';
     StickersGridComponent,
     PostPopUpFormComponent,
     LoginComponent,
+    AlbumsPopUpComponent,
   ],
   imports: [
     BrowserModule,
