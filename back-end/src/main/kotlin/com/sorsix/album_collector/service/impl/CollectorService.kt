@@ -29,7 +29,7 @@ class CollectorService(
             password = encoder.encode(collectorRegistration.password)
         )
         val roles: MutableSet<Role> = HashSet()
-        roleRepository.save(Role(1,ERole.ROLE_USER))//delete row
+        roleRepository.save(Role(1, ERole.ROLE_USER))//delete row
         val userRole: Role = roleRepository.findByName(ERole.ROLE_USER)
         roles.add(userRole)
         collector.roles = roles
