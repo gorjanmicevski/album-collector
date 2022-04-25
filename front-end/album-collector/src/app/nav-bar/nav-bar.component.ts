@@ -7,12 +7,13 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./nav-bar.component.css'],
 })
 export class NavBarComponent implements OnInit {
-  constructor() {}
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {}
   isLoggedIn() {
-    // console.log(localStorage.getItem('id_token'));
-    if (localStorage.getItem('id_token') != undefined) return true;
-    return false;
+    return this.authService.isLoggedIn();
+  }
+  logout() {
+    return this.authService.logout();
   }
 }

@@ -6,7 +6,7 @@ import com.sorsix.album_collector.domain.PrivateAlbumInstance
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
-import java.util.Objects
+import java.util.*
 import kotlin.streams.toList
 
 class UserDetailsImpl(
@@ -19,7 +19,7 @@ class UserDetailsImpl(
     //mozhe da treba mutable
     private val authorities: Collection<GrantedAuthority>,
     val albums: List<PrivateAlbumInstance>,
-    val profilePicture: ByteArray
+    val profilePicture: ByteArray,
 ) : UserDetails {
     val serialVersionUID = 1L
 

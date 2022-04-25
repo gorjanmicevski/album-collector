@@ -16,6 +16,7 @@ import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { AlbumsPopUpComponent } from './albums-pop-up/albums-pop-up.component';
 import { RegisterComponent } from './register/register.component';
+import { HomeComponent } from './home/home.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,6 +29,7 @@ import { RegisterComponent } from './register/register.component';
     LoginComponent,
     AlbumsPopUpComponent,
     RegisterComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
