@@ -3,6 +3,7 @@ package com.sorsix.album_collector.service.impl
 import com.sorsix.album_collector.api.CollectorRegistration
 import com.sorsix.album_collector.domain.Collector
 import com.sorsix.album_collector.domain.ERole
+import com.sorsix.album_collector.domain.PrivateAlbumInstance
 import com.sorsix.album_collector.domain.Role
 import com.sorsix.album_collector.repository.CollectorRepository
 import com.sorsix.album_collector.repository.RoleRepository
@@ -17,9 +18,6 @@ class CollectorService(
     val roleRepository: RoleRepository,
     val encoder: PasswordEncoder,
 ) : CollectorService {
-    override fun getMissingStickers() {
-        TODO("Not yet implemented")
-    }
 
     override fun createCollector(collectorRegistration: CollectorRegistration): Collector {
         val collector = Collector(
@@ -49,6 +47,10 @@ class CollectorService(
 
     override fun emailTaken(email: String): Boolean {
         return collectorRepository.existsByEmail(email)
+    }
+
+    override fun getPrivateAlbums(collectorId: Long): List<PrivateAlbumInstance> {
+        return collectorRepository.findById(collectorId).get().albums
     }
 
 

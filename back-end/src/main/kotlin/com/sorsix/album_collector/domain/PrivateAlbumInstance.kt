@@ -13,7 +13,7 @@ data class PrivateAlbumInstance(
     @JsonIncludeProperties("name", "surname")
     val collector: Collector,
     @ManyToOne
-    @JsonIncludeProperties("name")
+    @JsonIncludeProperties("id", "name")
     val album: Album,
     @OneToMany
     @JsonIgnore
