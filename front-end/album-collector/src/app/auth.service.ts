@@ -8,11 +8,14 @@ import * as moment from 'moment';
 export class AuthService {
   constructor(private http: HttpClient) {}
 
-  login(emal: string, password: string) {
-    return this.http.post<{ token: string }>('api/auth/login', {
-      emal,
-      password,
-    });
+  login(email: string, password: string) {
+    return this.http.post<{ token: string }>(
+      'http://localhost:8080/api/auth/login',
+      {
+        email,
+        password,
+      }
+    );
   }
   setSession(authResult: { token: string }) {
     // const expiresAt= moment().add()
