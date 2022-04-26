@@ -7,14 +7,16 @@ import javax.persistence.*
 data class Event(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
-    val title: String,
-    val place: String,
+    val id: Long = 0,
+    var title: String,
+    var location: String,
     @OneToMany
     @JsonIncludeProperties("id", "name")
-    val albums: List<Album>,
+    var albums: List<Album>,
     @OneToMany
-    val collectorsGoing: List<Collector>,
+    @JsonIncludeProperties("id", "name", "surname")
+    val collectorsGoing: MutableList<Collector> = mutableListOf(),
     @OneToMany
-    val collectorsInterested: List<Collector>
+    @JsonIncludeProperties("id", "name", "surname")
+    val collectorsInterested: MutableList<Collector> = mutableListOf()
 )
