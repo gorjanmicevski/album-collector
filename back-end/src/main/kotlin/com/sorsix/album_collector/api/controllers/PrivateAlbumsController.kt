@@ -31,9 +31,11 @@ class PrivateAlbumsController(
 
     @PutMapping("/{paId}/collectSticker")
     fun collectSticker(
-        @PathVariable paId: Long, @RequestParam stickerNumber: String
-    ) {
-        privateAlbumInstanceService.addNewCollectedSticker(paId, stickerNumber)
+        @PathVariable paId: Long,
+        @RequestBody stickerNumbers: List<String>
+    )
+    {
+        privateAlbumInstanceService.addNewCollectedSticker(paId, stickerNumbers)
     }
 
     @PutMapping("/{paId}/removeSticker")

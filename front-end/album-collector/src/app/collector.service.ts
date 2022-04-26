@@ -1,11 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { formatDate } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export class CollectorService {
   constructor(private http: HttpClient) {}
   register(name: string, surname: string, email: string, password: string) {
     return this.http.post(
@@ -30,10 +30,12 @@ export class AuthService {
   setSession(authResult: any) {
     localStorage.setItem('expires_at', authResult.expiration);
     localStorage.setItem('id_token', authResult.token);
+    localStorage.setItem('collector_id', authResult.id);
   }
   logout() {
     localStorage.removeItem('expires_at');
     localStorage.removeItem('id_token');
+    localStorage.removeItem('collector_id');
   }
   public isLoggedIn() {
     var expiresat = localStorage.getItem('expires_at');
@@ -42,13 +44,22 @@ export class AuthService {
       var then = formatDate(expiresat, 'YYYY-MM-ddTHH:mm:ss', 'en');
       var dateNow = new Date(now);
       var dateExpires = new Date(then);
-      console.log('is logged in', dateNow.getTime() < dateExpires.getTime());
-      return dateNow.getTime() < dateExpires.getTime();
+      if (dateNow.getTime() < dateExpires.getTime()) return true;
     }
+    this.logout();
     return false;
   }
 
   isLoggedOut() {
     return !this.isLoggedIn();
+  }
+
+  getPP() {
+    return this.http.get(
+      `http://localhost:8080/api/collectors/1/getProfilePicture`,
+      {
+        responseType: 'blob',
+      }
+    );
   }
 }

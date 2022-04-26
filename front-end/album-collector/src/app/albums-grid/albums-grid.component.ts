@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FeedService } from '../feed.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { AlbumsPopUpComponent } from '../albums-pop-up/albums-pop-up.component';
 
 import { mergeMap, Subject, switchMap, tap } from 'rxjs';
+import { AlbumService } from '../album.service';
 
 @Component({
   selector: 'app-albums-grid',
@@ -13,7 +13,7 @@ import { mergeMap, Subject, switchMap, tap } from 'rxjs';
 })
 export class AlbumsGridComponent implements OnInit {
   constructor(
-    private service: FeedService,
+    private service: AlbumService,
     private sanitizer: DomSanitizer,
     private modalService: NgbModal
   ) {}
@@ -67,10 +67,11 @@ export class AlbumsGridComponent implements OnInit {
       .result.then(
         (result) => {
           this.closeResult = `Closed with: ${result}`;
-
-          this.service
-            .addPrivateAlbum(1, result)
-            .subscribe(() => this.$refresh.next());
+          let collectorId = localStorage.getItem('collector_id');
+          if (collectorId != null)
+            this.service
+              .addPrivateAlbum(Number.parseInt(collectorId), result)
+              .subscribe(() => this.$refresh.next());
         },
         (reason) => {
           this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;

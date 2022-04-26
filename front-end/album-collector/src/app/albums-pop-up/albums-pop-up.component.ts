@@ -6,6 +6,7 @@ import {
   ModalDismissReasons,
   NgbActiveModal,
 } from '@ng-bootstrap/ng-bootstrap';
+import { AlbumService } from '../album.service';
 @Component({
   selector: 'app-albums-pop-up',
   templateUrl: './albums-pop-up.component.html',
@@ -14,7 +15,7 @@ import {
 export class AlbumsPopUpComponent implements OnInit {
   constructor(
     public activeModal: NgbActiveModal,
-    private service: FeedService,
+    private service: AlbumService,
     private sanitizer: DomSanitizer,
     private modalService: NgbModal
   ) {}

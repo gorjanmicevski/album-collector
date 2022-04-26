@@ -64,16 +64,17 @@ class PrivateAlbumInstanceService(
         )
     }
 
-    override fun addNewCollectedSticker(paId: Long, stickerNumber: String) {
+    override fun addNewCollectedSticker(paId: Long, stickerNumbers: List<String>) {
 
         val privateAlbum: PrivateAlbumInstance = privateAlbumRepository.findByIdOrNull(paId)
             ?: throw EntityNotFoundException("Private album with given id does not exist")
         val album = privateAlbum.album
-        val sticker = stickerRepository.findByNumberAndAlbum(stickerNumber, album)
-            ?: throw EntityNotFoundException("Sticker with given number does not exist in given album")
-        if (privateAlbum.collectedStickers.contains(sticker)) privateAlbum.duplicateStickers.add(sticker)
-        else privateAlbum.collectedStickers.add(sticker)
-
+        for (stickerNumber in stickerNumbers){
+            val sticker = stickerRepository.findByNumberAndAlbum(stickerNumber, album)?:continue
+//                ?: throw EntityNotFoundException("Sticker with given number does not exist in given album")
+            if (privateAlbum.collectedStickers.contains(sticker)) privateAlbum.duplicateStickers.add(sticker)
+            else privateAlbum.collectedStickers.add(sticker)
+        }
         privateAlbumRepository.save(privateAlbum)
     }
 
