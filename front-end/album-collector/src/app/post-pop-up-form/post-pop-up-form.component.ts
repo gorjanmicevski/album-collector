@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { AlbumService } from '../album.service';
 import { FeedService } from '../feed.service';
 
 @Component({
@@ -11,7 +12,8 @@ export class PostPopUpFormComponent implements OnInit {
   constructor(
     public activeModal: NgbActiveModal,
     public modalService: NgbModal,
-    public feedService: FeedService
+    public feedService: FeedService,
+    public albumService: AlbumService
   ) {}
   // @Input() onCancel: void | undefined;
   ngOnInit(): void {}
@@ -72,10 +74,18 @@ export class PostPopUpFormComponent implements OnInit {
     switch (type) {
       case 'm':
         this.urlMissing = '';
-        this.post.missingStickers = '1,2,3,4,5,6';
+        let collectorId = localStorage.getItem('collector_id');
+        if (collectorId != null)
+          this.albumService
+            .getMissing(Number.parseInt(collectorId), 1)
+            .subscribe((data) => {
+              console.log(data);
+              this.post.missingStickers = data.stickers;
+            });
         break;
       case 'd':
         this.urlDuplicates = '';
+
         this.post.duplicateStickers = '1,2,3,4,5,6';
         break;
     }

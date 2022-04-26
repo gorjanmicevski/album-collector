@@ -40,18 +40,32 @@ export class AlbumService {
   }
   addCollected(paId: number, stickerNumbers: number[]) {
     return this.http
-      .put(`http://localhost:8080/api/privateAlbum/${paId}/collectSticker`, {
+      .put(`http://localhost:8080/api/privateAlbum/${paId}/collectStickers`, {
         stickerNumbers,
       })
       .subscribe((data) => console.log(data));
   }
-  // addDuplicate(paId: number, stickerNumber: number) {
-  //   let queryParams = new HttpParams();
-  //   queryParams = queryParams.append('stickerNumber', stickerNumber);
-  //   return this.http.put(
-  //     `api/privateAlbum/${paId}/collectSticker`,
-  //     {},
-  //     { params: queryParams }
-  //   );
-  // }
+  addDuplicate(paId: number, stickerNumbers: number[]) {
+    return this.http
+      .put(`http://localhost:8080/api/privateAlbum/${paId}/duplicateStickers`, {
+        stickerNumbers,
+      })
+      .subscribe((data) => console.log(data));
+  }
+  addMissing(paId: number, stickerNumbers: number[]) {
+    return this.http
+      .put(`http://localhost:8080/api/privateAlbum/${paId}/missingStickers`, {
+        stickerNumbers,
+      })
+      .subscribe((data) => console.log(data));
+  }
+  getMissing(collectorId: number, albumId: number) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append('collectorId', collectorId);
+    queryParams = queryParams.append('albumId', albumId);
+    return this.http.get<{ stickers: string }>(
+      'http://localhost:8080/api/privateAlbum/missingStickers',
+      { params: queryParams }
+    );
+  }
 }

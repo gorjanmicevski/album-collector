@@ -8,6 +8,9 @@ interface PrivateAlbumInstanceService {
     fun getMissingStickers(collectorId: Long, albumId: Long): String
     fun getAllStickers(paId: Long): PrivateAlbumStickers
     fun addNewCollectedSticker(paId: Long, stickerNumber: List<String>)
-    fun removeCollectedSticker(paId: Long, stickerNumber: String)
-    fun removeDuplicateSticker(paId: Long, stickerNumber: String)
+    fun addDuplicateStickers(paId:Long,stickerNumbers: List<String>)
+//    fun removeCollectedSticker(paId: Long, stickerNumber: String)
+//    fun removeDuplicateSticker(paId: Long, stickerNumber: String)
+    fun getDuplicateStickers(collectorId: Long, albumId: Long):String
+    fun setMissingStickers(paId: Long, stickerNumbers: List<String>)
 }

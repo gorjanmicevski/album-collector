@@ -24,7 +24,9 @@ export class StickersGridComponent implements OnInit {
     this.route.paramMap
       .pipe(
         map((params) => params.get('id')),
-        tap((id) => (this.paId = id)),
+        tap((id) => {
+          this.paId = id;
+        }),
         mergeMap((id) => this.service.getStickers(Number.parseInt(id!)))
       )
       .subscribe((data) => {
@@ -35,24 +37,35 @@ export class StickersGridComponent implements OnInit {
         this.duplicateStickers = data.duplicateStickers;
 
         this.missingStickers = this.allStickers?.filter(
-          (e) => !this.collectedStickers?.includes(e)
+          (e) =>
+            !this.collectedStickers?.map((s) => s.number).includes(e.number)
         );
-
         this.allStickers = this.allStickers?.map((sticker) => {
-          if (this.collectedStickers?.includes(sticker))
-            return { ...sticker, stickerClass: 'collected' };
-          else return sticker;
-        });
-        this.allStickers = this.allStickers?.map((sticker) => {
-          if (this.missingStickers?.includes(sticker))
+          if (
+            this.missingStickers?.map((s) => s.number).includes(sticker.number)
+          ) {
             return { ...sticker, stickerClass: 'missing' };
-          else return sticker;
+          } else return sticker;
         });
         this.allStickers = this.allStickers?.map((sticker) => {
-          if (this.duplicateStickers?.includes(sticker))
-            return { ...sticker, stickerClass: 'duplicate' };
-          else return sticker;
+          if (
+            this.collectedStickers
+              ?.map((s) => s.number)
+              .includes(sticker.number)
+          ) {
+            return { ...sticker, stickerClass: 'collected' };
+          } else return sticker;
         });
+        this.allStickers = this.allStickers?.map((sticker) => {
+          if (
+            this.duplicateStickers
+              ?.map((s) => s.number)
+              .includes(sticker.number)
+          ) {
+            return { ...sticker, stickerClass: 'duplicate' };
+          } else return sticker;
+        });
+
         this.stickers = [...this.allStickers!];
         console.log(this.stickers);
         this.calculateRowRange();
@@ -113,9 +126,18 @@ export class StickersGridComponent implements OnInit {
     let duplicate = this.allStickers?.filter(
       (s) => s.stickerClass == 'duplicate'
     );
+    let missing = this.allStickers?.filter((s) => s.stickerClass == 'missing');
     this.service.addCollected(
       Number.parseInt(this.paId!),
       collected?.map((s) => s.number)!
+    );
+    this.service.addDuplicate(
+      Number.parseInt(this.paId!),
+      duplicate?.map((s) => s.number)!
+    );
+    this.service.addMissing(
+      Number.parseInt(this.paId!),
+      missing?.map((s) => s.number)!
     );
     console.log('collected', collected);
     console.log('duplicate', duplicate);
