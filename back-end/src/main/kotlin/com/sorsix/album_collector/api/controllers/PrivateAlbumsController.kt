@@ -1,6 +1,7 @@
 package com.sorsix.album_collector.api.controllers
 
 import com.sorsix.album_collector.api.dtos.PrivateAlbumStickers
+import com.sorsix.album_collector.api.dtos.StickerNumberList
 import com.sorsix.album_collector.domain.PrivateAlbumInstance
 import com.sorsix.album_collector.service.PrivateAlbumInstanceService
 import org.springframework.http.ResponseEntity
@@ -29,26 +30,42 @@ class PrivateAlbumsController(
         return ResponseEntity.ok(privateAlbumInstanceService.getMissingStickers(collectorId, albumId))
     }
 
-    @PutMapping("/{paId}/collectSticker")
+    @PutMapping("/{paId}/collectStickers")
     fun collectSticker(
-        @PathVariable paId: Long, @RequestParam stickerNumber: String
+        @PathVariable paId: Long,
+        @RequestBody stickerNumbers: StickerNumberList
     ) {
-        privateAlbumInstanceService.addNewCollectedSticker(paId, stickerNumber)
+        privateAlbumInstanceService.addNewCollectedSticker(paId, stickerNumbers.stickerNumbers)
     }
 
-    @PutMapping("/{paId}/removeSticker")
-    fun removeSticker(
-        @PathVariable paId: Long, @RequestParam stickerNumber: String
+    @PutMapping("/{paId}/duplicateStickers")
+    fun duplicateStickers(
+        @PathVariable paId: Long,
+        @RequestBody stickerNumbers: StickerNumberList
     ) {
-        privateAlbumInstanceService.removeCollectedSticker(paId, stickerNumber)
+        privateAlbumInstanceService.addDuplicateStickers(paId,stickerNumbers.stickerNumbers)
     }
 
-    @PutMapping("/{paId}/removeDuplicate")
-    fun removeDuplicateSticker(
-        @PathVariable paId: Long, @RequestParam stickerNumber: String
-    ) {
-        privateAlbumInstanceService.removeDuplicateSticker(paId, stickerNumber)
+    @PutMapping("/{paId}/missingStickers")
+    fun addMissingStickers(
+        @PathVariable paId: Long,
+        @RequestBody stickerNumbers: StickerNumberList
+    ){
+        privateAlbumInstanceService.setMissingStickers(paId,stickerNumbers.stickerNumbers)
     }
+//    @PutMapping("/{paId}/removeSticker")
+//    fun removeSticker(
+//        @PathVariable paId: Long, @RequestParam stickerNumber: String
+//    ) {
+//        privateAlbumInstanceService.removeCollectedSticker(paId, stickerNumber)
+//    }
+//
+//    @PutMapping("/{paId}/removeDuplicate")
+//    fun removeDuplicateSticker(
+//        @PathVariable paId: Long, @RequestParam stickerNumber: String
+//    ) {
+//        privateAlbumInstanceService.removeDuplicateSticker(paId, stickerNumber)
+//    }
 
     @GetMapping("/{paId}/stickers")
     fun getPrivateAlbumStickers(

@@ -4,6 +4,7 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { PostPopUpFormComponent } from '../post-pop-up-form/post-pop-up-form.component';
 import { formatDate } from '@angular/common';
 import { Router } from '@angular/router';
+import { AlbumService } from '../album.service';
 @Component({
   selector: 'app-feed',
   templateUrl: './feed.component.html',
@@ -11,6 +12,7 @@ import { Router } from '@angular/router';
 })
 export class FeedComponent implements OnInit {
   constructor(
+    private albumService: AlbumService,
     private feedService: FeedService,
     private modalService: NgbModal,
     private router: Router
@@ -23,7 +25,7 @@ export class FeedComponent implements OnInit {
   albumsList: any[] | undefined;
   ngOnInit(): void {
     this.getNewPage();
-    this.feedService.getPrivateAlbums().subscribe((data) => {
+    this.albumService.getPrivateAlbums().subscribe((data) => {
       console.log((this.albumsList = data));
       this.albumsList = data;
     });

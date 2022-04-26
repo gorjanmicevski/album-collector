@@ -15,7 +15,7 @@ class PostsController(
 ) {
     //Posts
 
-    @GetMapping("/")
+    @GetMapping()
     fun getPostsPaginated(
         @RequestParam page: Int, @RequestParam pageSize: Int, @RequestParam albumIds: List<Long>?
     ): ResponseEntity<List<Post>> {

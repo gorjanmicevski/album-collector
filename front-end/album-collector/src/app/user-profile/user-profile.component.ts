@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FeedService } from '../feed.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { tap } from 'rxjs';
+import { CollectorService } from '../collector.service';
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -9,6 +10,7 @@ import { tap } from 'rxjs';
 })
 export class UserProfileComponent implements OnInit {
   constructor(
+    private collectorService: CollectorService,
     private feedService: FeedService,
     private sanitizer: DomSanitizer
   ) {}
@@ -48,7 +50,7 @@ export class UserProfileComponent implements OnInit {
   }
   getProfilePic() {
     console.log('inn');
-    this.feedService
+    this.collectorService
       .getPP()
       .pipe(tap((e) => console.log(e)))
       .subscribe((blob: any) => {
