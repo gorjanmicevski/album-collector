@@ -21,11 +21,22 @@ class PostService(
     val collectorRepository: CollectorRepository,
     val albumRepository: AlbumRepository
 ) : PostService {
-    override fun getAllPaginated(page: Int, pageSize: Int, albumId: Long?): List<Post> {
-        albumId ?: return postRepository.findAll(PageRequest.of(page, pageSize)).content.sortedBy { it.dateTimeCreated }
-        albumRepository.findByIdOrNull(albumId) ?: throw EntityNotFoundException("Album with given id does not exist")
-        return postRepository.findAll(PageRequest.of(page, pageSize)).content.filter { it.album.id == albumId }
-            .sortedBy { it.dateTimeCreated }
+    override fun getAllPaginated(page: Int, pageSize: Int, albumIds: List<Long>?): List<Post> {
+        return if (albumIds != null && albumRepository.findAllById(albumIds).size > 0)
+            postRepository.findAll(
+                PageRequest.of(
+                    page,
+                    pageSize
+                )
+            ).content.filter { albumIds.contains(it.album.id) }
+                .sortedBy { it.dateTimeCreated }
+        else
+            postRepository.findAll(
+                PageRequest.of(
+                    page,
+                    pageSize
+                )
+            ).content.sortedBy { it.dateTimeCreated }
     }
 
     override fun create(post: PostCreator, imageMissing: MultipartFile?, imageDuplicates: MultipartFile?): Post {

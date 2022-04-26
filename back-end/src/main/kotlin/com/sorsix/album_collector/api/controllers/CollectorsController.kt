@@ -19,7 +19,6 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import java.net.URI
-import kotlin.streams.toList
 
 @RestController
 @RequestMapping("/api/collectors")
