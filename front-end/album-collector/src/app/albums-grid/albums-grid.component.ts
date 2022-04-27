@@ -17,6 +17,7 @@ export class AlbumsGridComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private modalService: NgbModal
   ) {}
+  collectorId = Number.parseInt(localStorage.getItem('collector_id')!);
   albumsList: any[] | undefined;
   rowRange: number[] = [];
   cols = new Array(4);
@@ -27,9 +28,9 @@ export class AlbumsGridComponent implements OnInit {
     this.$refresh
       .pipe(
         tap(() => console.log('void')),
-        mergeMap(() =>
-          this.service.getPrivateAlbums(Number.parseInt(this.collectorId!))
-        )
+
+        mergeMap(() => this.service.getPrivateAlbums(this.collectorId))
+
       )
       .subscribe({
         next: (data) => {

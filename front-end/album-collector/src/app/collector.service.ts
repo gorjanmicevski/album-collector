@@ -54,9 +54,13 @@ export class CollectorService {
     return !this.isLoggedIn();
   }
 
-  getPP() {
+  getCollector(collectorId: number) {
+    return this.http.get(`http://localhost:8080/api/collectors/${collectorId}`);
+  }
+
+  getPP(collectorId: number) {
     return this.http.get(
-      `http://localhost:8080/api/collectors/1/getProfilePicture`,
+      `http://localhost:8080/api/collectors/${collectorId}/getProfilePicture`,
       {
         responseType: 'blob',
       }

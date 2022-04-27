@@ -3,6 +3,7 @@ package com.sorsix.album_collector.api.controllers
 import com.sorsix.album_collector.api.dtos.CollectorRegistration
 import com.sorsix.album_collector.api.dtos.JwtResponse
 import com.sorsix.album_collector.api.dtos.LoginRequest
+import com.sorsix.album_collector.domain.Collector
 import com.sorsix.album_collector.domain.PrivateAlbumInstance
 import com.sorsix.album_collector.security.jwt.JwtUtils
 import com.sorsix.album_collector.security.service.UserDetailsImpl
@@ -84,5 +85,12 @@ class CollectorsController(
         @PathVariable collectorId: Long
     ): ResponseEntity<List<PrivateAlbumInstance>> {
         return ResponseEntity.ok(collectorService.getPrivateAlbums(collectorId))
+    }
+
+    @GetMapping("/{collectorId}")
+    fun getCollector(
+        @PathVariable collectorId: Long
+    ): ResponseEntity<Collector> {
+        return ResponseEntity.ok(collectorService.getCollector(collectorId))
     }
 }
