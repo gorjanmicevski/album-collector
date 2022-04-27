@@ -62,9 +62,18 @@ export class AlbumService {
     let queryParams = new HttpParams();
     queryParams = queryParams.append('collectorId', collectorId);
     queryParams = queryParams.append('albumId', albumId);
-    return this.http.get<{ stickers: string }>(
+    return this.http.get(
       'http://localhost:8080/api/privateAlbum/missingStickers',
-      { params: queryParams }
+      { params: queryParams, responseType: 'text' }
+    );
+  }
+  getDuplicates(collectorId: number, albumId: number) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append('collectorId', collectorId);
+    queryParams = queryParams.append('albumId', albumId);
+    return this.http.get(
+      'http://localhost:8080/api/privateAlbum/duplicateStickers',
+      { params: queryParams, responseType: 'text' }
     );
   }
 }

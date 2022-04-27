@@ -22,12 +22,15 @@ export class AlbumsGridComponent implements OnInit {
   rowRange: number[] = [];
   cols = new Array(4);
   closeResult = '';
+  collectorId = localStorage.getItem('collector_id');
   $refresh = new Subject<void>();
   ngOnInit(): void {
     this.$refresh
       .pipe(
         tap(() => console.log('void')),
+
         mergeMap(() => this.service.getPrivateAlbums(this.collectorId))
+
       )
       .subscribe({
         next: (data) => {
@@ -39,8 +42,8 @@ export class AlbumsGridComponent implements OnInit {
             });
           });
 
-          this.albumsList = data;
-          this.rowRange = new Array(this.calculateRows(data));
+          this.albumsList = [...data, { dummt: 'dummy' }];
+          this.rowRange = new Array(this.calculateRows(this.albumsList));
         },
       });
     this.$refresh.next();
@@ -51,11 +54,8 @@ export class AlbumsGridComponent implements OnInit {
     return Math.floor(list.length / 4) + 1;
   }
   colRange(index: number) {
-    if (this.albumsList?.length! <= index) return false;
+    if (this.albumsList?.length! - 1 <= index) return false;
     return true;
-  }
-  createRange(number: number) {
-    return new Array(number);
   }
 
   open() {

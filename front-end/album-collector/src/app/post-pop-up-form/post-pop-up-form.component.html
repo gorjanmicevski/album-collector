@@ -35,6 +35,26 @@
           type="button"
         ></button>
       </div> -->
+    <div ngbDropdown class="d-inline-block">
+      <button
+        type="button"
+        class="btn btn-outline-primary"
+        id="dropdownBasic1"
+        ngbDropdownToggle
+      >
+        {{ selected }}
+      </button>
+      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+        <button
+          *ngFor="let album of albumsList"
+          (click)="select(album.album)"
+          ngbDropdownItem
+        >
+          {{ album.album.name }}
+        </button>
+      </div>
+    </div>
+    <!-- ----------------------------- -->
     <div class="form-group">
       <label for="exampleFormControlTextarea1">Description</label>
       <textarea

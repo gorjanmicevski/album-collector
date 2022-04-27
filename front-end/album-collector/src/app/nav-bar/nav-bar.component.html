@@ -1,4 +1,7 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav
+  class="navbar navbar-expand-lg navbar-light"
+  style="background-color: #1e3d59"
+>
   <!-- <a class="navbar-brand" href="#">Navbar</a> -->
   <!-- <button
     class="navbar-toggler"
@@ -17,18 +20,26 @@
     id="navbarNavDropdown"
   >
     <div class="col-4">
-      <a class="navbar-brand ms-5" routerLink="/home">Album Collector</a>
+      <a class="navbar-brand ms-5" routerLink="/home"
+        ><span class="navbar-button">Album Collector</span></a
+      >
     </div>
     <div class="col-4 d-flex justify-content-center">
       <ul class="navbar-nav mx-auto" *ngIf="isLoggedIn()">
         <li class="nav-item active">
-          <a class="nav-link" routerLink="/profile">Profile</a>
+          <a class="nav-link" routerLink="/profile"
+            ><span class="navbar-button">Profile</span></a
+          >
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/feed">Feed</a>
+          <a class="nav-link" routerLink="/feed">
+            <span class="navbar-button">Feed</span></a
+          >
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/albums">Albums</a>
+          <a class="nav-link" routerLink="/albums"
+            ><span class="navbar-button">Albums</span>
+          </a>
         </li>
       </ul>
     </div>
@@ -40,13 +51,17 @@
             routerLink="/login"
             *ngIf="isLoggedIn()"
             (click)="logout()"
-            >Logout</a
+            ><span class="navbar-button">Logout</span></a
           >
         </li>
       </ul>
       <ul class="navbar-nav flex-row me-5" *ngIf="!isLoggedIn()">
-        <a class="nav-link px-2" routerLink="/login">Login</a>
-        <a class="nav-link px-2" routerLink="/register">Register</a>
+        <a class="nav-link px-2" routerLink="/login"
+          ><span class="navbar-button">Login</span></a
+        >
+        <a class="nav-link px-2" routerLink="/register"
+          ><span class="navbar-button">Register</span></a
+        >
       </ul>
     </div>
   </div>

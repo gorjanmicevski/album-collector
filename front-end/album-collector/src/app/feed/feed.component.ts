@@ -24,19 +24,29 @@ export class FeedComponent implements OnInit {
   selected = 'Filter Albums';
   selectedAlbumId: number | undefined = undefined;
   albumsList: any[] | undefined;
+  collectorId = localStorage.getItem('collector_id');
   ngOnInit(): void {
     this.getNewPage();
+
     this.albumService.getPrivateAlbums(this.collectorId).subscribe((data) => {
       console.log((this.albumsList = data));
       this.albumsList = data;
     });
+
   }
   onScroll() {
     this.getNewPage();
   }
-  filterAlbums(albumId: number) {
-    console.log(albumId);
-    this.selectedAlbumId = albumId;
+  filterAlbums(album: any) {
+    if (album != undefined) {
+      this.selectedAlbumId = album.id;
+      this.selected = album.name;
+      console.log(album.id);
+    } else {
+      this.selected = 'All';
+      console.log('All', this.selected);
+      this.selectedAlbumId = undefined;
+    }
     this.page = -1;
     this.posts = [];
     this.getNewPage();
@@ -45,12 +55,14 @@ export class FeedComponent implements OnInit {
     this.page += 1;
     if (this.selectedAlbumId == undefined)
       this.feedService.getPosts(this.page, 4).subscribe((data) => {
+        console.log('posts unfiltered', data);
         this.posts = [...this.posts, ...data];
       });
     else
       this.feedService
         .getPostsByAlbum(this.page, 4, this.selectedAlbumId)
         .subscribe((data) => {
+          console.log('posts filtered', data);
           this.posts = [...this.posts, ...data];
         });
   }
