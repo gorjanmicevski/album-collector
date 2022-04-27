@@ -22,6 +22,7 @@ class PostService(
     val collectorRepository: CollectorRepository,
     val albumRepository: AlbumRepository
 ) : PostService {
+
     override fun getAllPaginated(page: Int, pageSize: Int, albumId: Long?): List<Post> {
         return if (albumId != null) postRepository.findByAlbum_Id(
             albumId,
@@ -32,6 +33,7 @@ class PostService(
                 page, pageSize, Sort.by("dateTimeCreated").descending()
             )
         ).content.sortedBy { it.dateTimeCreated }
+
     }
 
     override fun create(post: PostCreator, imageMissing: MultipartFile?, imageDuplicates: MultipartFile?): Post {

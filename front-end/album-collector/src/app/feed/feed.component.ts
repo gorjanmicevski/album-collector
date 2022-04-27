@@ -31,7 +31,6 @@ export class FeedComponent implements OnInit {
       console.log((this.albumsList = data));
       this.albumsList = data;
     });
-
   }
   onScroll() {
     this.getNewPage();

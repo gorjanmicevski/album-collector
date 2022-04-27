@@ -29,7 +29,6 @@ export class AlbumsGridComponent implements OnInit {
         tap(() => console.log('void')),
 
         mergeMap(() => this.service.getPrivateAlbums(this.collectorId))
-
       )
       .subscribe({
         next: (data) => {
