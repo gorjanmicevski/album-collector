@@ -11,4 +11,5 @@ interface CollectorService {
     fun getProfilePicture(collectorId: Long): ByteArray
     fun emailTaken(email: String): Boolean
     fun getPrivateAlbums(collectorId: Long): List<PrivateAlbumInstance>
+    fun getCollector(collectorId: Long): Collector
 }

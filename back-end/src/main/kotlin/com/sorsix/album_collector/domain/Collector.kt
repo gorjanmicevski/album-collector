@@ -21,6 +21,7 @@ data class Collector(
     @OneToMany(mappedBy = "collector")
     @JsonIncludeProperties("album")
     val albums: MutableList<PrivateAlbumInstance> = mutableListOf(),
+    @JsonIgnore
     @Lob
     var profilePicture: ByteArray = ByteArray(0)
 ) {
