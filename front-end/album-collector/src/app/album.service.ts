@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { mergeMap, Subject } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
@@ -9,11 +10,9 @@ export class AlbumService {
     return this.http.get<any[]>('http://localhost:8080/api/albums');
   }
 
-  getPrivateAlbums() {
+  getPrivateAlbums(collectorId: number) {
     return this.http.get<any[]>(
-      `http://localhost:8080/api/collectors/${localStorage.getItem(
-        'collector_id'
-      )}/privateAlbums`
+      `http://localhost:8080/api/collectors/${collectorId}/privateAlbums`
     );
   }
   addPrivateAlbum(collectorId: number, albumId: number) {

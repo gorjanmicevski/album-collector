@@ -17,6 +17,7 @@ export class FeedComponent implements OnInit {
     private modalService: NgbModal,
     private router: Router
   ) {}
+  collectorId = Number.parseInt(localStorage.getItem('collector_id')!);
   closeResult = '';
   posts: any[] = [];
   page = -1;
@@ -25,7 +26,7 @@ export class FeedComponent implements OnInit {
   albumsList: any[] | undefined;
   ngOnInit(): void {
     this.getNewPage();
-    this.albumService.getPrivateAlbums().subscribe((data) => {
+    this.albumService.getPrivateAlbums(this.collectorId).subscribe((data) => {
       console.log((this.albumsList = data));
       this.albumsList = data;
     });

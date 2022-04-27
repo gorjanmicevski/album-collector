@@ -60,5 +60,10 @@ class CollectorService(
         return collector.albums
     }
 
+    override fun getCollector(collectorId: Long): Collector {
+        return collectorRepository.findByIdOrNull(collectorId)
+            ?: throw EntityNotFoundException("Collector with given id not found")
+    }
+
 
 }
