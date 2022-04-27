@@ -32,7 +32,7 @@ class PostService(
             PageRequest.of(
                 page, pageSize, Sort.by("dateTimeCreated").descending()
             )
-        ).content.sortedBy { it.dateTimeCreated }
+        ).content
 
     }
 

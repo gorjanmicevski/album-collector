@@ -3,7 +3,7 @@ import { FeedService } from '../feed.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { forkJoin, mergeMap, Observable, Subject, tap } from 'rxjs';
 import { CollectorService } from '../collector.service';
-import { Obj } from '@popperjs/core';
+import { Router } from '@angular/router';
 import { AlbumService } from '../album.service';
 @Component({
   selector: 'app-user-profile',
@@ -12,6 +12,7 @@ import { AlbumService } from '../album.service';
 })
 export class UserProfileComponent implements OnInit {
   constructor(
+    private router: Router,
     private collectorService: CollectorService,
     private albumService: AlbumService,
     private feedService: FeedService,
@@ -21,6 +22,19 @@ export class UserProfileComponent implements OnInit {
   collectorInfo$ = new Subject<void>();
   collectorId = Number.parseInt(localStorage.getItem('collector_id')!);
   editView = true;
+  collector: {
+    id: number;
+    name: string;
+    surname: string;
+    email: string;
+    password: string;
+  } = {
+    id: -1,
+    name: '',
+    surname: '',
+    email: '',
+    password: '',
+  };
   btnText = 'Edit Profile';
   selectedValue = 'All';
   options = ['All', 'Collected', 'Collecting'];
@@ -58,11 +72,16 @@ export class UserProfileComponent implements OnInit {
       .subscribe({
         next: (data: [any, Blob, any[]]) => {
           console.log('dataSubject ', data);
+          this.collector.name = data[0].name;
+          this.collector.surname = data[0].surname;
+          this.collector.email = data[0].email;
+          this.collector.id = data[0].id;
+          console.log('collector', this.collector);
           this.collectorFullName = `${data[0].name} ${data[0].surname}`;
           if (data[1].size > 0) {
             let objectURL = URL.createObjectURL(data[1]);
             this.testImg = this.sanitizer.bypassSecurityTrustUrl(objectURL);
-          } else this.testImg = `https://i.imgur.com/aoKusnD.jpg`;
+          } else this.testImg = '../../assets/userProfile.jpg';
           data[2].forEach((el) => {
             // console.log(el.album.id);
             this.albumImageGetter$.next(el.album.id);
@@ -76,8 +95,17 @@ export class UserProfileComponent implements OnInit {
       this.editView = false;
       this.btnText = 'Save Profile';
     } else {
-      this.editView = true;
-      this.btnText = 'Edit Profile';
+      console.log('submit');
+      this.collectorService
+        .updateCollector(this.collector)
+        .subscribe((data) => {
+          console.log(data);
+          this.router
+            .navigateByUrl('/RefreshComponent', { skipLocationChange: true })
+            .then(() => {
+              this.router.navigate(['/profile']);
+            });
+        });
     }
   }
   onFileSelected(event: any) {

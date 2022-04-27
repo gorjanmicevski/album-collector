@@ -1,7 +1,12 @@
 <div class="container">
   <div class="row d-flex justify-content-between">
     <div class="col-3 d-flex flex-column align-items-center pt-5">
-      <img class="rounded-circle" [src]="testImg" width="90%" />
+      <img
+        class="rounded-circle"
+        [src]="testImg"
+        width="90%"
+        style="object-fit: cover"
+      />
       <button
         class="my-2"
         style="border-radius: 6px; background-color: white"
@@ -31,7 +36,7 @@
               type="text"
               class="form-control"
               placeholder="first name"
-              value=""
+              [(ngModel)]="collector.name"
             />
           </div>
           <div class="col-md-6">
@@ -40,72 +45,12 @@
               [disabled]="editView"
               type="text"
               class="form-control"
-              value=""
+              [(ngModel)]="collector.surname"
               placeholder="surname"
             />
           </div>
         </div>
         <div class="row mt-3">
-          <div class="col-md-12">
-            <label class="labels">Mobile Number</label
-            ><input
-              [disabled]="editView"
-              type="text"
-              class="form-control"
-              placeholder="enter phone number"
-              value=""
-            />
-          </div>
-          <div class="col-md-12">
-            <label class="labels">Address Line 1</label
-            ><input
-              [disabled]="editView"
-              type="text"
-              class="form-control"
-              placeholder="enter address line 1"
-              value=""
-            />
-          </div>
-          <div class="col-md-12">
-            <label class="labels">Address Line 2</label
-            ><input
-              [disabled]="editView"
-              type="text"
-              class="form-control"
-              placeholder="enter address line 2"
-              value=""
-            />
-          </div>
-          <div class="col-md-12">
-            <label class="labels">Postcode</label
-            ><input
-              [disabled]="editView"
-              type="text"
-              class="form-control"
-              placeholder="enter address line 2"
-              value=""
-            />
-          </div>
-          <div class="col-md-12">
-            <label class="labels">State</label
-            ><input
-              [disabled]="editView"
-              type="text"
-              class="form-control"
-              placeholder="enter address line 2"
-              value=""
-            />
-          </div>
-          <div class="col-md-12">
-            <label class="labels">Area</label
-            ><input
-              [disabled]="editView"
-              type="text"
-              class="form-control"
-              placeholder="enter address line 2"
-              value=""
-            />
-          </div>
           <div class="col-md-12">
             <label class="labels">Email</label
             ><input
@@ -113,30 +58,22 @@
               type="text"
               class="form-control"
               placeholder="enter email id"
-              value=""
+              [(ngModel)]="collector.email"
             />
           </div>
         </div>
-        <div class="row mt-3">
+        <div class="row mt-3" *ngIf="!editView">
           <div class="col-md-6">
-            <label class="labels">Country</label
+            <label class="labels">New Password</label
             ><input
-              [disabled]="editView"
-              type="text"
+              type="password"
               class="form-control"
-              placeholder="country"
-              value=""
+              [(ngModel)]="collector.password"
             />
           </div>
           <div class="col-md-6">
-            <label class="labels">State/Region</label
-            ><input
-              [disabled]="editView"
-              type="text"
-              class="form-control"
-              value=""
-              placeholder="state"
-            />
+            <label class="labels">Confirm Password</label
+            ><input type="password" class="form-control" />
           </div>
         </div>
         <div class="mt-5 text-end">
@@ -150,21 +87,15 @@
         </div>
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-2">
       <div class="p-3 py-5">
-        <div
-          class="d-flex justify-content-between align-items-center experience"
-        >
+        <div>
           <span>Albums</span>
-          <select name="cars" id="cars">
-            <option value="volvo">All</option>
-            <option value="saab">Colecting</option>
-            <option value="mercedes">Collected</option>
-          </select>
         </div>
         <br />
         <div class="col-md-12">
           <img
+            class="my-2"
             *ngFor="let album of albumsList"
             [src]="album"
             style="width: 100%; height: 10em"

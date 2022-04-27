@@ -20,17 +20,28 @@
     id="navbarNavDropdown"
   >
     <div class="col-4">
-      <a class="navbar-brand ms-5" routerLink="/home"
+      <a *ngIf="!isLoggedIn()" class="navbar-brand ms-5" routerLink="/home"
         ><span class="navbar-button">Album Collector</span></a
       >
+      <div *ngIf="isLoggedIn()" ngbDropdown class="navbar-brand ms-5">
+        <span type="button" id="dropdownBasic1" ngbDropdownToggle>
+          <i
+            class="far fa-user p-2 rounded-circle"
+            style="background-color: #f5f0e1"
+          ></i>
+        </span>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button ngbDropdownItem routerLink="/profile">
+            <span class="text-dark">Profile</span>
+          </button>
+          <button ngbDropdownItem routerLink="/home" (click)="logout()">
+            <span class="text-dark">Logout</span>
+          </button>
+        </div>
+      </div>
     </div>
     <div class="col-4 d-flex justify-content-center">
       <ul class="navbar-nav mx-auto" *ngIf="isLoggedIn()">
-        <li class="nav-item active">
-          <a class="nav-link" routerLink="/profile"
-            ><span class="navbar-button">Profile</span></a
-          >
-        </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/feed">
             <span class="navbar-button">Feed</span></a
@@ -44,17 +55,7 @@
       </ul>
     </div>
     <div class="col-4 d-flex justify-content-end">
-      <ul class="navbar-nav flex-row me-5">
-        <li class="nav-item">
-          <a
-            class="nav-link px-2"
-            routerLink="/login"
-            *ngIf="isLoggedIn()"
-            (click)="logout()"
-            ><span class="navbar-button">Logout</span></a
-          >
-        </li>
-      </ul>
+      <ul class="navbar-nav flex-row me-5"></ul>
       <ul class="navbar-nav flex-row me-5" *ngIf="!isLoggedIn()">
         <a class="nav-link px-2" routerLink="/login"
           ><span class="navbar-button">Login</span></a
