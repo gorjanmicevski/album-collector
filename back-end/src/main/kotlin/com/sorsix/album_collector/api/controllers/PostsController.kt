@@ -17,9 +17,11 @@ class PostsController(
 
     @GetMapping()
     fun getPostsPaginated(
-        @RequestParam page: Int, @RequestParam pageSize: Int, @RequestParam albumIds: List<Long>?
+        @RequestParam page: Int, @RequestParam pageSize: Int, @RequestParam albumId: Long?
     ): ResponseEntity<List<Post>> {
-        return ResponseEntity.ok(postService.getAllPaginated(page, pageSize, albumIds))
+        if(albumId!=null)
+        return ResponseEntity.ok(postService.getAllPaginated(page, pageSize, arrayOf(albumId).toList()))
+        return ResponseEntity.ok(postService.getAllPaginated(page, pageSize,null))
     }
 
     @PostMapping("/create")

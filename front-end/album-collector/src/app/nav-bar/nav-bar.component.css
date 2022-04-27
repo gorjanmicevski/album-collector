@@ -1,0 +1,10 @@
+.navbar-button {
+  /* background-color: #f5f0e1; */
+  color: #f5f0e1;
+  border-radius: 1em;
+  padding: 0.5em 1em 0.5em 1em;
+}
+.navbar-button:hover {
+  background-color: #f5f0e1;
+  color: #1e3d59;
+}

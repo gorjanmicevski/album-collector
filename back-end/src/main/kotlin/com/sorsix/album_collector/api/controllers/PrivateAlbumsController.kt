@@ -29,6 +29,12 @@ class PrivateAlbumsController(
     ): ResponseEntity<String> {
         return ResponseEntity.ok(privateAlbumInstanceService.getMissingStickers(collectorId, albumId))
     }
+    @GetMapping("/duplicateStickers")
+    fun getDuplicateStickers(
+        @RequestParam collectorId: Long, @RequestParam albumId: Long
+    ): ResponseEntity<String> {
+        return ResponseEntity.ok(privateAlbumInstanceService.getDuplicateStickers(collectorId, albumId))
+    }
 
     @PutMapping("/{paId}/collectStickers")
     fun collectSticker(

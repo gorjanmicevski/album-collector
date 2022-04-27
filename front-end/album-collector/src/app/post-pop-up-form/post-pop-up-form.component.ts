@@ -15,8 +15,18 @@ export class PostPopUpFormComponent implements OnInit {
     public feedService: FeedService,
     public albumService: AlbumService
   ) {}
-  // @Input() onCancel: void | undefined;
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.albumService
+      .getPrivateAlbums(Number.parseInt(this.collectorId!))
+      .subscribe((data) => {
+        console.log((this.albumsList = data));
+        this.albumsList = data;
+      });
+  }
+  collectorId = localStorage.getItem('collector_id');
+  albumsList: any[] = [];
+  selectedAlbumId = -1;
+  selected = 'Select Album';
   post: {
     collectorId: number;
     description: string;
@@ -28,7 +38,7 @@ export class PostPopUpFormComponent implements OnInit {
     duplicateCardsImg?: any;
     albumId: number;
   } = {
-    collectorId: 1,
+    collectorId: Number.parseInt(this.collectorId!),
     description: '',
     phone: '',
     location: '',
@@ -36,13 +46,18 @@ export class PostPopUpFormComponent implements OnInit {
     duplicateStickers: '',
     missingCardsImg: undefined,
     duplicateCardsImg: undefined,
-    albumId: 1,
+    albumId: 0,
   };
   urlMissing = '';
   urlDuplicates = '';
   imageUrl = '';
   cancel() {
     // this.onCancel;
+  }
+  select(album: any) {
+    this.selected = album.name;
+    this.selectedAlbumId = album.id;
+    this.post.albumId = album.id;
   }
   onFileSelected(event: any, type: string) {
     console.log(event);
@@ -63,30 +78,31 @@ export class PostPopUpFormComponent implements OnInit {
     }
   }
   submit() {
-    console.log(this.post.description);
+    console.log('posted', this.post);
     this.feedService.addPost(this.post).subscribe(() => {
       this.activeModal.close('Close click');
     });
   }
   importStickers(type: string) {
-    console.log('asdsad');
-
+    let collectorId = localStorage.getItem('collector_id');
     switch (type) {
       case 'm':
-        this.urlMissing = '';
-        let collectorId = localStorage.getItem('collector_id');
         if (collectorId != null)
           this.albumService
-            .getMissing(Number.parseInt(collectorId), 1)
+            .getMissing(Number.parseInt(collectorId), this.selectedAlbumId)
             .subscribe((data) => {
-              console.log(data);
-              this.post.missingStickers = data.stickers;
+              this.urlMissing = '';
+              this.post.missingStickers = data;
             });
         break;
       case 'd':
-        this.urlDuplicates = '';
-
-        this.post.duplicateStickers = '1,2,3,4,5,6';
+        if (collectorId != null)
+          this.albumService
+            .getDuplicates(Number.parseInt(collectorId), this.selectedAlbumId)
+            .subscribe((data) => {
+              this.urlDuplicates = '';
+              this.post.duplicateStickers = data;
+            });
         break;
     }
   }

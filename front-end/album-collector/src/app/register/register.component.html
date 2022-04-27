@@ -1,53 +1,58 @@
-<div class="container d-flex justify-content-center">
-  <form style="width: 50%" (ngSubmit)="register()">
-    <div class="form-group">
-      <label>Name</label>
-      <input
-        class="form-control"
-        type="text"
-        placeholder="name"
-        name="name"
-        [(ngModel)]="name"
-      />
-    </div>
-    <div class="form-group">
-      <label>Surname</label>
-      <input
-        class="form-control"
-        type="text"
-        placeholder="surname"
-        name="surname"
-        [(ngModel)]="surname"
-      />
-    </div>
-    <div class="form-group">
-      <label>Email</label>
-      <input
-        class="form-control"
-        type="text"
-        placeholder="example@example.com"
-        name="email"
-        [(ngModel)]="email"
-      />
-    </div>
-    <div class="form-group">
-      <label>Password</label>
-      <input
-        class="form-control"
-        type="password"
-        name="password"
-        [(ngModel)]="password"
-      />
-    </div>
-    <div class="form-group">
-      <label>Confirm Password</label>
-      <input
-        class="form-control"
-        type="password"
-        name="confirmPassword"
-        [(ngModel)]="confirmPassword"
-      />
-    </div>
-    <button class="btn btn-success my-3" value="submit">Submit</button>
-  </form>
+<div style="height: 90vh; background-color: #f5f0e1">
+  <div
+    class="container d-flex justify-content-center align-items-center"
+    style="height: 100%"
+  >
+    <form (ngSubmit)="register()" class="register-card bg-white p-5 shadow">
+      <div class="form-group">
+        <label>Name</label>
+        <input
+          class="form-control"
+          type="text"
+          placeholder="name"
+          name="name"
+          [(ngModel)]="name"
+        />
+      </div>
+      <div class="form-group">
+        <label>Surname</label>
+        <input
+          class="form-control"
+          type="text"
+          placeholder="surname"
+          name="surname"
+          [(ngModel)]="surname"
+        />
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input
+          class="form-control"
+          type="text"
+          placeholder="example@example.com"
+          name="email"
+          [(ngModel)]="email"
+        />
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input
+          class="form-control"
+          type="password"
+          name="password"
+          [(ngModel)]="password"
+        />
+      </div>
+      <div class="form-group">
+        <label>Confirm Password</label>
+        <input
+          class="form-control"
+          type="password"
+          name="confirmPassword"
+          [(ngModel)]="confirmPassword"
+        />
+      </div>
+      <button class="btn btn-success my-3" value="submit">Submit</button>
+    </form>
+  </div>
 </div>
