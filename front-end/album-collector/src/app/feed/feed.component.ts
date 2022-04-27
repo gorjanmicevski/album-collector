@@ -24,7 +24,6 @@ export class FeedComponent implements OnInit {
   selected = 'Filter Albums';
   selectedAlbumId: number | undefined = undefined;
   albumsList: any[] | undefined;
-  collectorId = localStorage.getItem('collector_id');
   ngOnInit(): void {
     this.getNewPage();
 
