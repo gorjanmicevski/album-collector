@@ -9,12 +9,12 @@ data class Collector(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
-    val name: String,
-    val surname: String,
+    var name: String,
+    var surname: String,
     @Column(unique = true)
-    val email: String,
+    var email: String,
     @JsonIgnore
-    val password: String,
+    var password: String,
     @ManyToMany(fetch = FetchType.LAZY)
     //da se sredi ova da ne bide var 03:06 e nemom poke nemom
     var roles: MutableSet<Role> = HashSet(),

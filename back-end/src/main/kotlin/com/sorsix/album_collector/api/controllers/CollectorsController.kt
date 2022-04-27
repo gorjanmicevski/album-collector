@@ -1,6 +1,7 @@
 package com.sorsix.album_collector.api.controllers
 
 import com.sorsix.album_collector.api.dtos.CollectorRegistration
+import com.sorsix.album_collector.api.dtos.CollectorUpdate
 import com.sorsix.album_collector.api.dtos.JwtResponse
 import com.sorsix.album_collector.api.dtos.LoginRequest
 import com.sorsix.album_collector.domain.Collector
@@ -40,7 +41,16 @@ class CollectorsController(
         }
         return ResponseEntity.ok(collectorService.createCollector(collectorRegistration))
     }
-
+    @PostMapping("/updateCollector")
+    fun updateCollector(@RequestBody collectorUpdate: CollectorUpdate):ResponseEntity<Any>{
+        if(collectorService.getCollector(collectorUpdate.id).email == collectorUpdate.email){
+            return ResponseEntity.ok(collectorService.updateCollector(collectorUpdate))
+        }
+        if(collectorService.emailTaken(collectorUpdate.email)){
+            return ResponseEntity.badRequest().body("Error: Email already used")
+        }
+        return ResponseEntity.ok(collectorService.updateCollector(collectorUpdate))
+    }
     @PostMapping("/login")
     fun login(@RequestBody loginRequest: LoginRequest): ResponseEntity<Any> {
         val authentication: Authentication = authenticationManager.authenticate(

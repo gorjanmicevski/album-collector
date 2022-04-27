@@ -13,8 +13,8 @@ data class Post(
     var phone: String,
     var location: String,
     @ManyToOne(fetch = FetchType.LAZY) @JsonIncludeProperties("id", "name") var album: Album,
-    var duplicateStickers: String?,
-    var missingStickers: String?,
+    @Column(length=10485760) var duplicateStickers: String?,
+    @Column(length=10485760) var missingStickers: String?,
     var imageDuplicatesStickers: ByteArray?,
     var imageMissingStickers: ByteArray?,
     val dateTimeCreated: LocalDateTime

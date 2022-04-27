@@ -1,6 +1,7 @@
 package com.sorsix.album_collector.service.impl
 
 import com.sorsix.album_collector.api.dtos.CollectorRegistration
+import com.sorsix.album_collector.api.dtos.CollectorUpdate
 import com.sorsix.album_collector.domain.Collector
 import com.sorsix.album_collector.domain.ERole
 import com.sorsix.album_collector.domain.PrivateAlbumInstance
@@ -63,6 +64,17 @@ class CollectorService(
     override fun getCollector(collectorId: Long): Collector {
         return collectorRepository.findByIdOrNull(collectorId)
             ?: throw EntityNotFoundException("Collector with given id not found")
+    }
+
+    override fun updateCollector(collectorUpdate: CollectorUpdate): Collector {
+        val toUpdate=collectorRepository.findByIdOrNull(collectorUpdate.id)
+            ?: throw EntityNotFoundException("Collector with given id does not exist")
+        toUpdate.email=collectorUpdate.email
+        toUpdate.name=collectorUpdate.name
+        toUpdate.surname=collectorUpdate.surname
+        toUpdate.password=collectorUpdate.password
+        collectorRepository.save(toUpdate)
+        return toUpdate
     }
 
 

@@ -57,7 +57,13 @@ export class CollectorService {
   getCollector(collectorId: number) {
     return this.http.get(`http://localhost:8080/api/collectors/${collectorId}`);
   }
-
+  updateCollector(collectorUpdate: any) {
+    console.log('update collector', collectorUpdate);
+    return this.http.post(
+      'http://localhost:8080/api/collectors/updateCollector',
+      collectorUpdate
+    );
+  }
   getPP(collectorId: number) {
     return this.http.get(
       `http://localhost:8080/api/collectors/${collectorId}/getProfilePicture`,

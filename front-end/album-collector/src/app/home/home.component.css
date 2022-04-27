@@ -1,0 +1,13 @@
+.wrapper {
+  background-image: url("../../assets/stickerbg2.jpg");
+  height: 93vh;
+}
+.heading {
+  font-size: 10em;
+  -webkit-text-stroke: 2px black;
+}
+.content {
+  font-size: 2em;
+  font-weight: bolder;
+  -webkit-text-stroke: 0.1px black;
+}
