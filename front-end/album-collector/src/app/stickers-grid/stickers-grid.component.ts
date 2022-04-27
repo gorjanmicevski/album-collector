@@ -33,7 +33,6 @@ export class StickersGridComponent implements OnInit {
         console.log(data);
         this.allStickers = data.allStickers;
         this.collectedStickers = data.collectedStickers;
-
         this.duplicateStickers = data.duplicateStickers;
 
         this.missingStickers = this.allStickers?.filter(
@@ -85,6 +84,7 @@ export class StickersGridComponent implements OnInit {
     switch (this.stickers![index].stickerClass) {
       case 'missing':
         this.stickers![index].stickerClass = 'collected';
+
         break;
       case 'collected':
         this.stickers![index].stickerClass = 'duplicate';

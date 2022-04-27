@@ -22,7 +22,6 @@ export class AlbumsGridComponent implements OnInit {
   rowRange: number[] = [];
   cols = new Array(4);
   closeResult = '';
-  collectorId = localStorage.getItem('collector_id');
   $refresh = new Subject<void>();
   ngOnInit(): void {
     this.$refresh
@@ -30,7 +29,6 @@ export class AlbumsGridComponent implements OnInit {
         tap(() => console.log('void')),
 
         mergeMap(() => this.service.getPrivateAlbums(this.collectorId))
-
       )
       .subscribe({
         next: (data) => {
