@@ -22,21 +22,33 @@ class PostService(
     val albumRepository: AlbumRepository
 ) : PostService {
     override fun getAllPaginated(page: Int, pageSize: Int, albumIds: List<Long>?): List<Post> {
-        return if (albumIds != null && albumRepository.findAllById(albumIds).size > 0)
-            postRepository.findAll(
-                PageRequest.of(
-                    page,
-                    pageSize
-                )
-            ).content.filter { albumIds.contains(it.album.id) }
-                .sortedBy { it.dateTimeCreated }
-        else
-            postRepository.findAll(
-                PageRequest.of(
-                    page,
-                    pageSize
-                )
-            ).content.sortedBy { it.dateTimeCreated }
+
+         if (albumIds != null && albumRepository.findAllById(albumIds).size > 0)
+         {
+             var ret=postRepository.findAll(
+                 PageRequest.of(
+                     page,
+                     pageSize
+                 )
+             ).content
+
+             var met=ret.filter { albumIds.contains(it.album.id) }
+                 .sortedByDescending { it.dateTimeCreated }
+             return met
+         }
+        else{
+             var ret=postRepository.findAll(
+                 PageRequest.of(
+                     page,
+                     pageSize
+                 )
+             ).content
+             var met=ret.sortedByDescending { it.dateTimeCreated }
+
+             return met
+         }
+
+
     }
 
     override fun create(post: PostCreator, imageMissing: MultipartFile?, imageDuplicates: MultipartFile?): Post {
