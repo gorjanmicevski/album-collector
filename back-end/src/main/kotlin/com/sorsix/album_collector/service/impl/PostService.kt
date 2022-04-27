@@ -9,6 +9,7 @@ import com.sorsix.album_collector.repository.CollectorRepository
 import com.sorsix.album_collector.repository.PostRepository
 import com.sorsix.album_collector.service.PostService
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
@@ -21,33 +22,17 @@ class PostService(
     val collectorRepository: CollectorRepository,
     val albumRepository: AlbumRepository
 ) : PostService {
-    override fun getAllPaginated(page: Int, pageSize: Int, albumIds: List<Long>?): List<Post> {
 
-         if (albumIds != null && albumRepository.findAllById(albumIds).size > 0)
-         {
-             var ret=postRepository.findAll(
-                 PageRequest.of(
-                     page,
-                     pageSize
-                 )
-             ).content
-
-             var met=ret.filter { albumIds.contains(it.album.id) }
-                 .sortedByDescending { it.dateTimeCreated }
-             return met
-         }
-        else{
-             var ret=postRepository.findAll(
-                 PageRequest.of(
-                     page,
-                     pageSize
-                 )
-             ).content
-             var met=ret.sortedByDescending { it.dateTimeCreated }
-
-             return met
-         }
-
+    override fun getAllPaginated(page: Int, pageSize: Int, albumId: Long?): List<Post> {
+        return if (albumId != null) postRepository.findByAlbum_Id(
+            albumId,
+            PageRequest.of(page, pageSize, Sort.by("dateTimeCreated").descending())
+        ).content
+        else postRepository.findAll(
+            PageRequest.of(
+                page, pageSize, Sort.by("dateTimeCreated").descending()
+            )
+        ).content.sortedBy { it.dateTimeCreated }
 
     }
 
