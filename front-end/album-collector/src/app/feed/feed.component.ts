@@ -5,6 +5,8 @@ import { PostPopUpFormComponent } from '../post-pop-up-form/post-pop-up-form.com
 import { formatDate } from '@angular/common';
 import { Router } from '@angular/router';
 import { AlbumService } from '../album.service';
+import { CollectorService } from '../collector.service';
+import { DomSanitizer } from '@angular/platform-browser';
 @Component({
   selector: 'app-feed',
   templateUrl: './feed.component.html',
@@ -14,8 +16,10 @@ export class FeedComponent implements OnInit {
   constructor(
     private albumService: AlbumService,
     private feedService: FeedService,
+    private collectorService: CollectorService,
     private modalService: NgbModal,
-    private router: Router
+    private router: Router,
+    private sanitizer: DomSanitizer
   ) {}
   collectorId = Number.parseInt(localStorage.getItem('collector_id')!);
   closeResult = '';
@@ -54,7 +58,21 @@ export class FeedComponent implements OnInit {
     if (this.selectedAlbumId == undefined)
       this.feedService.getPosts(this.page, 4).subscribe((data) => {
         console.log('posts unfiltered', data);
-        this.posts = [...this.posts, ...data];
+        data.forEach((element: any) => {
+          console.log(element.collector.id);
+          this.collectorService.getPP(element.collector.id).subscribe((pp) => {
+            console.log(pp);
+            if (pp.size > 0) {
+              let objectURL = URL.createObjectURL(pp);
+              element.collectorPP =
+                this.sanitizer.bypassSecurityTrustUrl(objectURL);
+            } else {
+              element.collectorPP = '../../assets/userProfile.jpg';
+            }
+            this.posts.push(element);
+          });
+        });
+        console.log('ppoooooost', this.posts);
       });
     else
       this.feedService

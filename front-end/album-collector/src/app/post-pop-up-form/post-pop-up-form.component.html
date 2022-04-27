@@ -1,13 +1,8 @@
 <div class="modal-header">
   <div class="d-flex flex-row">
-    <img
-      class="rounded-circle"
-      src="https://i.imgur.com/aoKusnD.jpg"
-      width="45"
-    />
-    <div class="d-flex flex-column flex-wrap ps-3">
-      <span class="font-weight-bold"> Dimitar</span
-      ><span class="text-black-50 time"> 40 minutes ago</span>
+    <img class="rounded-circle" [src]="collectorPP" width="45" />
+    <div class="d-flex flex-row justify-content-center align-items-center">
+      <h6 class="m-0 p-0 font-weight-bold">{{ collectorName }}</h6>
     </div>
   </div>
   <button
@@ -38,7 +33,7 @@
     <div ngbDropdown class="d-inline-block">
       <button
         type="button"
-        class="btn btn-outline-primary"
+        class="btn btn-outline-dark"
         id="dropdownBasic1"
         ngbDropdownToggle
       >
@@ -171,5 +166,12 @@
   >
     Cancel
   </button>
-  <button type="button" class="btn btn-info" (click)="submit()">Submit</button>
+  <button
+    type="button"
+    class="btn"
+    style="background-color: #1e3d59; color: #f5f0e1"
+    (click)="submit()"
+  >
+    Submit
+  </button>
 </div>

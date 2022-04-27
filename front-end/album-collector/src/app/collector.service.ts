@@ -28,9 +28,14 @@ export class CollectorService {
     );
   }
   setSession(authResult: any) {
+    console.log('auth', authResult);
     localStorage.setItem('expires_at', authResult.expiration);
     localStorage.setItem('id_token', authResult.token);
     localStorage.setItem('collector_id', authResult.id);
+    localStorage.setItem(
+      'collector_name',
+      authResult.name + ' ' + authResult.surname
+    );
   }
   logout() {
     localStorage.removeItem('expires_at');

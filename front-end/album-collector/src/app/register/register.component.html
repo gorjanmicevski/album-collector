@@ -1,13 +1,16 @@
-<div style="height: 90vh; background-color: #f5f0e1">
+<div class="wrapper">
   <div
     class="container d-flex justify-content-center align-items-center"
     style="height: 100%"
   >
-    <form (ngSubmit)="register()" class="register-card bg-white p-5 shadow">
+    <form
+      (ngSubmit)="register()"
+      class="register-card bg-white px-4 pt-4 pb-3 shadow"
+    >
       <div class="form-group">
         <label>Name</label>
         <input
-          class="form-control"
+          class="form-control my-1"
           type="text"
           placeholder="name"
           name="name"
@@ -17,14 +20,14 @@
       <div class="form-group">
         <label>Surname</label>
         <input
-          class="form-control"
+          class="form-control my-1"
           type="text"
           placeholder="surname"
           name="surname"
           [(ngModel)]="surname"
         />
       </div>
-      <div class="form-group">
+      <div class="form-group my-1">
         <label>Email</label>
         <input
           class="form-control"
@@ -34,25 +37,36 @@
           [(ngModel)]="email"
         />
       </div>
-      <div class="form-group">
-        <label>Password</label>
-        <input
-          class="form-control"
-          type="password"
-          name="password"
-          [(ngModel)]="password"
-        />
+      <div class="form-group my-1 d-flex flex-row">
+        <div class="col-6 pe-2">
+          <label>Password</label>
+          <input
+            class="form-control"
+            type="password"
+            name="password"
+            [(ngModel)]="password"
+          />
+        </div>
+        <div class="col-6 ps-2">
+          <label>Confirm Password</label>
+          <input
+            class="form-control"
+            type="password"
+            name="confirmPassword"
+            [(ngModel)]="confirmPassword"
+          />
+        </div>
       </div>
-      <div class="form-group">
-        <label>Confirm Password</label>
-        <input
-          class="form-control"
-          type="password"
-          name="confirmPassword"
-          [(ngModel)]="confirmPassword"
-        />
+      <div class="form-group my-1"></div>
+      <div class="text-center">
+        <button
+          class="btn mt-2"
+          value="submit"
+          style="background-color: #1e3d59; color: #f5f0e1"
+        >
+          Submit
+        </button>
       </div>
-      <button class="btn btn-success my-3" value="submit">Submit</button>
     </form>
   </div>
 </div>

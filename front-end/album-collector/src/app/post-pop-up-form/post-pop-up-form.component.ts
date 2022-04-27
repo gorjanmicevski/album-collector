@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AlbumService } from '../album.service';
+import { CollectorService } from '../collector.service';
 import { FeedService } from '../feed.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-post-pop-up-form',
@@ -13,17 +15,28 @@ export class PostPopUpFormComponent implements OnInit {
     public activeModal: NgbActiveModal,
     public modalService: NgbModal,
     public feedService: FeedService,
-    public albumService: AlbumService
+    public albumService: AlbumService,
+    public collectorService: CollectorService,
+    private sanitizer: DomSanitizer
   ) {}
   ngOnInit(): void {
-    this.albumService
-      .getPrivateAlbums(Number.parseInt(this.collectorId!))
-      .subscribe((data) => {
-        console.log((this.albumsList = data));
-        this.albumsList = data;
-      });
+    this.albumService.getPrivateAlbums(this.collectorId).subscribe((data) => {
+      console.log((this.albumsList = data));
+      this.albumsList = data;
+    });
+    this.collectorService.getPP(this.collectorId).subscribe((data) => {
+      console.log('collecotr', data);
+      if (data.size > 0) {
+        let objectURL = URL.createObjectURL(data);
+        this.collectorPP = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+      } else {
+        this.collectorPP = '../../assets/userProfile.jpg';
+      }
+    });
   }
-  collectorId = localStorage.getItem('collector_id');
+  collectorId = Number.parseInt(localStorage.getItem('collector_id')!);
+  collectorPP: any;
+  collectorName = localStorage.getItem('collector_name');
   albumsList: any[] = [];
   selectedAlbumId = -1;
   selected = 'Select Album';
@@ -38,7 +51,7 @@ export class PostPopUpFormComponent implements OnInit {
     duplicateCardsImg?: any;
     albumId: number;
   } = {
-    collectorId: Number.parseInt(this.collectorId!),
+    collectorId: this.collectorId,
     description: '',
     phone: '',
     location: '',
@@ -84,25 +97,22 @@ export class PostPopUpFormComponent implements OnInit {
     });
   }
   importStickers(type: string) {
-    let collectorId = localStorage.getItem('collector_id');
     switch (type) {
       case 'm':
-        if (collectorId != null)
-          this.albumService
-            .getMissing(Number.parseInt(collectorId), this.selectedAlbumId)
-            .subscribe((data) => {
-              this.urlMissing = '';
-              this.post.missingStickers = data;
-            });
+        this.albumService
+          .getMissing(this.collectorId, this.selectedAlbumId)
+          .subscribe((data) => {
+            this.urlMissing = '';
+            this.post.missingStickers = data;
+          });
         break;
       case 'd':
-        if (collectorId != null)
-          this.albumService
-            .getDuplicates(Number.parseInt(collectorId), this.selectedAlbumId)
-            .subscribe((data) => {
-              this.urlDuplicates = '';
-              this.post.duplicateStickers = data;
-            });
+        this.albumService
+          .getDuplicates(this.collectorId, this.selectedAlbumId)
+          .subscribe((data) => {
+            this.urlDuplicates = '';
+            this.post.duplicateStickers = data;
+          });
         break;
     }
   }

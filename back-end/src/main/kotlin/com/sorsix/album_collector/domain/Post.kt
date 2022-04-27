@@ -7,7 +7,7 @@ import javax.persistence.*
 @Entity
 data class Post(
     @Id @GeneratedValue val id: Long = 0,
-    @ManyToOne(fetch = FetchType.LAZY) @JsonIncludeProperties("name", "surname") val collector: Collector,
+    @ManyToOne(fetch = FetchType.LAZY) @JsonIncludeProperties("name", "surname","id") val collector: Collector,
     var collectorName: String,
     var description: String,
     var phone: String,

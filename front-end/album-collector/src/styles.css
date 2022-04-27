@@ -6,3 +6,9 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+.wrapper {
+  background: url("/assets/homeBg.png") center center fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 93vh;
+}
