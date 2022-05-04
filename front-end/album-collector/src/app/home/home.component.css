@@ -1,12 +1,12 @@
 .heading {
-  font-size: 10em;
+  font-size: 8em;
   color: #f5f0e1;
   -webkit-text-stroke: 0.01em #1e3d59;
 }
 .content {
   background-color: #f5f0e1;
   color: #1e3d59;
-  font-size: 2em;
+  font-size: 1.5em;
   text-align: center;
   border-radius: 2em;
   padding-top: 0.4em;
