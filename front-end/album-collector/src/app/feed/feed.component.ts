@@ -61,7 +61,6 @@ export class FeedComponent implements OnInit {
         data.forEach((element: any) => {
           console.log(element.collector.id);
           this.collectorService.getPP(element.collector.id).subscribe((pp) => {
-            console.log(pp);
             if (pp.size > 0) {
               let objectURL = URL.createObjectURL(pp);
               element.collectorPP =
@@ -72,7 +71,6 @@ export class FeedComponent implements OnInit {
             this.posts.push(element);
           });
         });
-        console.log('ppoooooost', this.posts);
       });
     else
       this.feedService
@@ -113,7 +111,6 @@ export class FeedComponent implements OnInit {
       .result.then(
         (result) => {
           this.closeResult = `Closed with: ${result}`;
-
           this.router
             .navigateByUrl('/RefreshComponent', { skipLocationChange: true })
             .then(() => {

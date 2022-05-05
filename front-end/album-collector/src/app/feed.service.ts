@@ -25,6 +25,7 @@ export class FeedService {
     });
   }
   addPost(post: any) {
+    console.log('add post', post);
     return this.http.post(`http://localhost:8080/api/posts/create`, post);
   }
   uploadFile(file: File) {
@@ -46,5 +47,31 @@ export class FeedService {
       .subscribe((res) => {
         console.log(res);
       });
+  }
+  uploadImage(file: File, category: string) {
+    const fd = new FormData();
+    fd.append('file', file);
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${localStorage.getItem('id_token')}`,
+      }),
+    };
+    switch (category) {
+      case 'm':
+        this.http
+          .post(
+            `http://localhost:8080/api/collectors/${localStorage.getItem(
+              'collector_id'
+            )}/setProfilePicture`,
+            fd,
+            httpOptions
+          )
+          .subscribe((res) => {
+            console.log(res);
+          });
+        break;
+      case 'd':
+        break;
+    }
   }
 }

@@ -74,17 +74,26 @@ export class PostPopUpFormComponent implements OnInit {
   }
   onFileSelected(event: any, type: string) {
     console.log(event);
-    this.feedService.uploadFile(event.target.files[0]);
     if (event.target.files) {
+      switch (type) {
+        case 'm':
+          this.post.missingCardsImg = event.target.files[0];
+          break;
+        case 'd':
+          this.post.duplicateCardsImg = event.target.files[0];
+          break;
+      }
       var reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
       reader.onload = (e: any) => {
         switch (type) {
           case 'm':
             this.urlMissing = e.target.result;
+
             break;
           case 'd':
             this.urlDuplicates = e.target.result;
+            this.post.duplicateCardsImg = e.target.result;
             break;
         }
       };
